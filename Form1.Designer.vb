@@ -39,6 +39,10 @@ Partial Class Form1
         Me.Label6 = New System.Windows.Forms.Label()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.exclabel = New System.Windows.Forms.Label()
+        Me.Label25 = New System.Windows.Forms.Label()
+        Me.TrackBar1 = New System.Windows.Forms.TrackBar()
+        Me.Label24 = New System.Windows.Forms.Label()
         Me.incCheck = New System.Windows.Forms.CheckBox()
         Me.Button2 = New System.Windows.Forms.Button()
         Me.Label9 = New System.Windows.Forms.Label()
@@ -128,16 +132,15 @@ Partial Class Form1
         Me.statwait = New System.Windows.Forms.Panel()
         Me.Label23 = New System.Windows.Forms.Label()
         Me.sfd = New System.Windows.Forms.SaveFileDialog()
-        Me.Label24 = New System.Windows.Forms.Label()
-        Me.TrackBar1 = New System.Windows.Forms.TrackBar()
-        Me.Label25 = New System.Windows.Forms.Label()
-        Me.exclabel = New System.Windows.Forms.Label()
+        Me.TabPage4 = New System.Windows.Forms.TabPage()
+        Me.Button15 = New System.Windows.Forms.Button()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.StatusStrip1.SuspendLayout()
         CType(Me.cImageVal, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pleasewaitpanel.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
+        CType(Me.TrackBar1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage2.SuspendLayout()
         CType(Me.threshMax, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.threshMin, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -146,7 +149,7 @@ Partial Class Form1
         Me.TabPage3.SuspendLayout()
         Me.TableLayoutPanel1.SuspendLayout()
         Me.statwait.SuspendLayout()
-        CType(Me.TrackBar1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TabPage4.SuspendLayout()
         Me.SuspendLayout()
         '
         'PictureBox1
@@ -265,6 +268,7 @@ Partial Class Form1
         Me.TabControl1.Controls.Add(Me.TabPage1)
         Me.TabControl1.Controls.Add(Me.TabPage2)
         Me.TabControl1.Controls.Add(Me.TabPage3)
+        Me.TabControl1.Controls.Add(Me.TabPage4)
         Me.TabControl1.Location = New System.Drawing.Point(724, 12)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
@@ -303,6 +307,48 @@ Partial Class Form1
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "File/play control"
         Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'exclabel
+        '
+        Me.exclabel.AutoSize = True
+        Me.exclabel.Font = New System.Drawing.Font("Segoe UI", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.exclabel.Location = New System.Drawing.Point(247, 333)
+        Me.exclabel.Name = "exclabel"
+        Me.exclabel.Size = New System.Drawing.Size(17, 20)
+        Me.exclabel.TabIndex = 24
+        Me.exclabel.Text = "0"
+        '
+        'Label25
+        '
+        Me.Label25.AutoSize = True
+        Me.Label25.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label25.Location = New System.Drawing.Point(9, 333)
+        Me.Label25.Name = "Label25"
+        Me.Label25.Size = New System.Drawing.Size(153, 15)
+        Me.Label25.TabIndex = 23
+        Me.Label25.Text = "Do not show images below:"
+        '
+        'TrackBar1
+        '
+        Me.TrackBar1.BackColor = System.Drawing.SystemColors.ControlLightLight
+        Me.TrackBar1.LargeChange = 10
+        Me.TrackBar1.Location = New System.Drawing.Point(12, 360)
+        Me.TrackBar1.Maximum = 100
+        Me.TrackBar1.Minimum = -100
+        Me.TrackBar1.Name = "TrackBar1"
+        Me.TrackBar1.Size = New System.Drawing.Size(252, 45)
+        Me.TrackBar1.SmallChange = 5
+        Me.TrackBar1.TabIndex = 22
+        '
+        'Label24
+        '
+        Me.Label24.AutoSize = True
+        Me.Label24.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label24.Location = New System.Drawing.Point(9, 309)
+        Me.Label24.Name = "Label24"
+        Me.Label24.Size = New System.Drawing.Size(95, 15)
+        Me.Label24.TabIndex = 21
+        Me.Label24.Text = "Exclusion criteria"
         '
         'incCheck
         '
@@ -1248,43 +1294,25 @@ Partial Class Form1
         Me.Label23.TabIndex = 0
         Me.Label23.Text = "Please wait"
         '
-        'Label24
+        'TabPage4
         '
-        Me.Label24.AutoSize = True
-        Me.Label24.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label24.Location = New System.Drawing.Point(9, 309)
-        Me.Label24.Name = "Label24"
-        Me.Label24.Size = New System.Drawing.Size(95, 15)
-        Me.Label24.TabIndex = 21
-        Me.Label24.Text = "Exclusion criteria"
+        Me.TabPage4.Controls.Add(Me.Button15)
+        Me.TabPage4.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage4.Name = "TabPage4"
+        Me.TabPage4.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage4.Size = New System.Drawing.Size(295, 620)
+        Me.TabPage4.TabIndex = 3
+        Me.TabPage4.Text = "TifyDataAnalysis"
+        Me.TabPage4.UseVisualStyleBackColor = True
         '
-        'TrackBar1
+        'Button15
         '
-        Me.TrackBar1.Location = New System.Drawing.Point(12, 360)
-        Me.TrackBar1.Minimum = -10
-        Me.TrackBar1.Name = "TrackBar1"
-        Me.TrackBar1.Size = New System.Drawing.Size(252, 45)
-        Me.TrackBar1.TabIndex = 22
-        '
-        'Label25
-        '
-        Me.Label25.AutoSize = True
-        Me.Label25.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label25.Location = New System.Drawing.Point(9, 333)
-        Me.Label25.Name = "Label25"
-        Me.Label25.Size = New System.Drawing.Size(153, 15)
-        Me.Label25.TabIndex = 23
-        Me.Label25.Text = "Do not show images below:"
-        '
-        'exclabel
-        '
-        Me.exclabel.AutoSize = True
-        Me.exclabel.Font = New System.Drawing.Font("Segoe UI", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.exclabel.Location = New System.Drawing.Point(247, 333)
-        Me.exclabel.Name = "exclabel"
-        Me.exclabel.Size = New System.Drawing.Size(17, 20)
-        Me.exclabel.TabIndex = 24
-        Me.exclabel.Text = "0"
+        Me.Button15.Location = New System.Drawing.Point(6, 6)
+        Me.Button15.Name = "Button15"
+        Me.Button15.Size = New System.Drawing.Size(283, 25)
+        Me.Button15.TabIndex = 0
+        Me.Button15.Text = "Save all score data"
+        Me.Button15.UseVisualStyleBackColor = True
         '
         'Form1
         '
@@ -1307,6 +1335,7 @@ Partial Class Form1
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         Me.TabPage1.PerformLayout()
+        CType(Me.TrackBar1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPage2.ResumeLayout(False)
         Me.TabPage2.PerformLayout()
         CType(Me.threshMax, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1319,7 +1348,7 @@ Partial Class Form1
         Me.TableLayoutPanel1.PerformLayout()
         Me.statwait.ResumeLayout(False)
         Me.statwait.PerformLayout()
-        CType(Me.TrackBar1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.TabPage4.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1434,4 +1463,6 @@ Partial Class Form1
     Friend WithEvents Label25 As Label
     Friend WithEvents TrackBar1 As TrackBar
     Friend WithEvents Label24 As Label
+    Friend WithEvents TabPage4 As TabPage
+    Friend WithEvents Button15 As Button
 End Class

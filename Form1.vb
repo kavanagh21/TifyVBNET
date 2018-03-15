@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports System.Security.Principal
 Imports ImageMagick
 Imports MathNet
 Imports MathNet.Numerics.Statistics.Statistics
@@ -375,6 +376,10 @@ erhand:
             End If
         Next
 
+
+        Dim identity = WindowsIdentity.GetCurrent()
+        Dim principal = New WindowsPrincipal(identity)
+        Dim isElevated As Boolean = principal.IsInRole(WindowsBuiltInRole.Administrator)
 
 
     End Sub
@@ -891,7 +896,7 @@ filewriteerror:
     End Sub
 
     Private Sub TrackBar1_Scroll(sender As Object, e As EventArgs) Handles TrackBar1.Scroll
-        exclabel.Text = sender.value
+        exclabel.Text = (sender.value / 10)
 
     End Sub
 
@@ -900,10 +905,46 @@ filewriteerror:
     End Sub
 
     Private Sub TrackBar1_MouseUp(sender As Object, e As MouseEventArgs) Handles TrackBar1.MouseUp
-        exclabel.Text = sender.value
+        exclabel.Text = (sender.value / 10)
+        If imgCount = 0 Then Exit Sub
         For n = 0 To imgCount
             If calcScore(n) >= sender.value Then imgIncluded(n) = True Else imgIncluded(n) = False
             If Not imgScore(n) = -1 And imgScore(n) > sender.value Then imgIncluded(n) = True
         Next
+    End Sub
+
+    Private Sub Button15_Click(sender As Object, e As EventArgs) Handles Button15.Click
+        Dim opf As StreamWriter
+        sfd.AddExtension = True
+        sfd.DefaultExt = ".txt"
+        sfd.Filter = "Text files|*.txt"
+        sfd.ShowDialog()
+
+        If sfd.FileName = "" Then MsgBox("Save cancelled.") : Exit Sub
+
+        If IO.File.Exists(sfd.FileName) Then IO.File.Delete(sfd.FileName)
+
+        opf = My.Computer.FileSystem.OpenTextFileWriter(sfd.FileName, False)
+
+        opf.WriteLine(InputBox("Enter a name for this data set"))
+        opf.WriteLine(imgCount)
+        For n = 0 To imgCount - 1
+            opf.WriteLine(imagepath(n))
+            opf.WriteLine(statDeviation(n))
+            opf.WriteLine(statEntropy(n))
+            opf.WriteLine(statIntDensity(n))
+            opf.WriteLine(statKurtosis(n))
+            opf.WriteLine(statMaximum(n))
+            opf.WriteLine(statMean(n))
+            opf.WriteLine(statPixelRamp(n))
+            opf.WriteLine(statQID(n))
+            opf.WriteLine(statSkewness(n))
+            opf.WriteLine(statSumSquared(n))
+            opf.WriteLine(statUniqueColour(n))
+            opf.WriteLine(imgScore(n))
+        Next
+        opf.Close()
+        MsgBox("File saved.")
+
     End Sub
 End Class
