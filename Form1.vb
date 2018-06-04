@@ -23,9 +23,15 @@ Public Class Form1
         Dim flname As String
         Dim fcount As Integer
 
+        ofd.AddExtension = True
+        ofd.DefaultExt = "*.*"
+        ofd.Filter = "All files|*.*"
 
         ofd.ShowDialog()
         fpth = ofd.FileName
+
+        If fpth = "" Then Exit Sub
+
         filepath.Text = fpth
         flname = fpth.Substring(0, fpth.LastIndexOf("\"))
         folname = fpth.Substring(fpth.LastIndexOf("\") + 1)
@@ -72,14 +78,18 @@ erhand:
         Dim fcount() As String
         Dim n As Integer
         Dim bv As UShort()
+        Dim pxCount As Integer
 
         Dim stp As New Stopwatch
         Dim fPixel As IPixelCollection
         Dim prTVal As Double
         Dim quad(3) As Double
+        Dim adval As Double
 
         CheckBox1.Checked = False
         displaytimer.Enabled = False
+        pleasewaitpanel.Visible = True
+
         Application.DoEvents()
 
         fpth = filepath.Text
@@ -91,38 +101,48 @@ erhand:
         tsProgress.Maximum = fcount.Length - 1
         toolstripobj.Text = "Loading image"
 
-        ReDim imagef(fcount.Length)
-        ReDim imagefinfo(fcount.Length)
+        ReDim imagef(fcount.Length - 1)
+        ReDim imagefinfo(fcount.Length - 1)
         GC.SuppressFinalize(imagef)
 
-        ReDim statUniqueColour(fcount.Length)
-        ReDim statEntropy(fcount.Length)
-        ReDim statKurtosis(fcount.Length)
-        ReDim statMaximum(fcount.Length)
-        ReDim statMean(fcount.Length)
-        ReDim statSkewness(fcount.Length)
-        ReDim statDeviation(fcount.Length)
-        ReDim statIntDensity(fcount.Length)
-        ReDim statPixelRamp(fcount.Length)
-        ReDim statQID(fcount.Length)
-        ReDim imagepath(fcount.Length)
-        ReDim statSumSquared(fcount.Length)
-        ReDim imgScore(fcount.Length)
-        ReDim calcScore(fcount.Length)
-        ReDim imgIncluded(fcount.Length)
+        ReDim statUniqueColour(fcount.Length - 1)
+        ReDim statEntropy(fcount.Length - 1)
+        ReDim statKurtosis(fcount.Length - 1)
+        ReDim statMaximum(fcount.Length - 1)
+        ReDim statMean(fcount.Length - 1)
+        ReDim statSkewness(fcount.Length - 1)
+        ReDim statDeviation(fcount.Length - 1)
+        ReDim statIntDensity(fcount.Length - 1)
+        ReDim statPixelRamp(fcount.Length - 1)
+        ReDim statQID(fcount.Length - 1)
+        ReDim imagepath(fcount.Length - 1)
+        ReDim statSumSquared(fcount.Length - 1)
+        ReDim imgScore(fcount.Length - 1)
+        ReDim calcScore(fcount.Length - 1)
+        ReDim imgIncluded(fcount.Length - 1)
         imgCount = fcount.Length
         cImageVal.Maximum = imgCount - 1
 
         'statCount is the number of statistics that are analysed for the image. 
 
-        threshMin.Maximum = 65535
-        threshMax.Maximum = 65535
-        lowthreshslider.Maximum = 65535
-        upperthreshslider.Maximum = 65535
-        lowthreshslider.SmallChange = 100
-        upperthreshslider.SmallChange = 100
-        lowthreshslider.LargeChange = 500
-        upperthreshslider.LargeChange = 500
+        If setimgminmax.Checked = True Then
+            threshMin.Maximum = 1
+            threshMax.Maximum = 1
+            threshMin.Value = 1
+            threshMax.Value = 1
+
+            upperthreshslider.Maximum = 1
+            lowthreshslider.Maximum = 1
+        Else
+            threshMin.Maximum = 65535
+            threshMax.Maximum = 65535
+            threshMax.Value = 65535
+            upperthreshslider.Maximum = 65535
+            lowthreshslider.Maximum = 65535
+            lowthreshslider.Value = 1
+            upperthreshslider.Value = 65535
+        End If
+
 
 
 
@@ -135,16 +155,19 @@ erhand:
             imgScore(n) = -1
             imgIncluded(n) = True
 
-            If imagef(n).Depth = 8 Then
-                threshMin.Maximum = 255
-                threshMax.Maximum = 255
-                lowthreshslider.Maximum = 255
-                upperthreshslider.Maximum = 255
-                lowthreshslider.SmallChange = 1
-                upperthreshslider.SmallChange = 1
-                lowthreshslider.LargeChange = 5
-                upperthreshslider.LargeChange = 5
+            If setimgminmax.Checked = True Then
+                If threshMin.Maximum < imagef(n).Statistics.Composite.Maximum Then threshMin.Maximum = imagef(n).Statistics.Composite.Maximum
+
+                If threshMax.Maximum < imagef(n).Statistics.Composite.Maximum Then threshMax.Maximum = imagef(n).Statistics.Composite.Maximum
+                If upperthreshslider.Maximum < imagef(n).Statistics.Composite.Maximum Then upperthreshslider.Maximum = imagef(n).Statistics.Composite.Maximum
+                If lowthreshslider.Maximum < imagef(n).Statistics.Composite.Maximum Then lowthreshslider.Maximum = imagef(n).Statistics.Composite.Maximum
+                lowthreshslider.Value = 0
+                threshMin.Value = 0
+                upperthreshslider.Value = upperthreshslider.Maximum
+                threshMax.Value = threshMax.Maximum
+                'Debug.Print(imagef(n).Statistics.Composite.Maximum)
             End If
+
 
             Using imgStream As New MemoryStream
                 imgStream.SetLength(0)
@@ -165,25 +188,32 @@ erhand:
             statIntDensity(n) = imagef(n).Statistics.Composite.Mean * (imagef(n).Width * imagef(n).Height)
             fPixel = imagef(n).GetPixels
             prTVal = 0
+            pxCount = 0
 
             'calculate iterative statistics. efficient to cycle once, calculate many!
-            For x = 3 To imagef(n).Width - 1 Step 3
-                For y = 3 To imagef(n).Height - 1 Step 3
+            'the global variable statpxStep defines the statistics stepping value
+            For x = statpxStep To imagef(n).Width - 1 Step statpxStep
+                For y = statpxStep To imagef(n).Height - 1 Step statpxStep
 
                     bv = fPixel.GetValue(x, y)
 
                     'pixel ramp collection
-                    prTVal = prTVal + (fPixel.GetValue(x, y).GetValue(0) - fPixel.GetValue(x - 3, y - 3).GetValue(0))
+                    adval = (fPixel.GetValue(x, y).GetValue(0) - fPixel.GetValue(x - statpxStep, y - statpxStep).GetValue(0))
+
+                    prTVal = prTVal + Math.Abs(adval)
 
                     'quadrant intensity values
                     If x <= imagef(n).Width / 2 And y <= imagef(n).Height / 2 Then quad(0) = quad(0) + fPixel.GetValue(x, y).GetValue(0)
                     If x <= imagef(n).Width / 2 And y > imagef(n).Height / 2 Then quad(1) = quad(1) + fPixel.GetValue(x, y).GetValue(0)
                     If x > imagef(n).Width / 2 And y <= imagef(n).Height / 2 Then quad(2) = quad(2) + fPixel.GetValue(x, y).GetValue(0)
                     If x > imagef(n).Width / 2 And y > imagef(n).Height / 2 Then quad(3) = quad(3) + fPixel.GetValue(x, y).GetValue(0)
-
+                    'Debug.Print("PxInt: " & fPixel.GetValue(x, y).GetValue(0))
+                    pxCount += 1
 
                 Next
             Next
+
+            Debug.Print("QUAD values: " & quad(0) & ", " & quad(1) & ", " & quad(2) & ", " & quad(3))
 
             statPixelRamp(n) = prTVal
             statQID(n) = quad.StandardDeviation
@@ -204,25 +234,53 @@ erhand:
             tsProgress.Value = n
 
             stp.Stop()
-            toolstripobj.Text = "Loading image " & n & " of " & fcount.Length - 1 & " (" & stp.ElapsedMilliseconds & "ms)"
+            toolstripobj.Text = "Loading image " & n & " of " & fcount.Length - 1 & " (" & stp.ElapsedMilliseconds & "ms) [" & pxCount & "]"
+            cfilename.Text = "Current filename: " & imagepath(n)
             stp.Reset()
             Application.DoEvents()
 
             n = n + 1
         Next
 
+        If setimgminmax.Checked = True Then
+            Call Button4_Click(vbNull, e)
+        End If
+
+
+        pleasewaitpanel.Visible = False
         GC.KeepAlive(imagef)
+        TrackBar1.Enabled = True
+        incCheck.BackColor = Color.Green
+        incCheck.ForeColor = Color.White
 
     End Sub
 
 
     Private Sub displaytimer_Tick(sender As Object, e As EventArgs) Handles displaytimer.Tick
+        Dim tmpv As Integer
+
+        If imgIncluded.Count(Function(x) x = True) = 0 Then toolstripobj.Text = "No images remain in the set." : displaytimer.Enabled = False : Exit Sub
+
+
         If imgCount > 0 Then
             If cImageVal.Value = cImageVal.Maximum Then
                 cImageVal.Value = 0
                 Exit Sub
             End If
-            cImageVal.Value = cImageVal.Value + 1
+
+
+            tmpv = cImageVal.Value
+tryagain:
+            tmpv += 1
+            If tmpv > imgCount - 1 Then tmpv = 0
+            If imgIncluded(tmpv) = False And skipcheck.Checked = True Then GoTo tryagain : 
+
+
+
+
+            cImageVal.Value = tmpv
+            cfilename.Text = "Current filename: " & imagepath(tmpv)
+            Application.DoEvents()
         End If
 
     End Sub
@@ -240,12 +298,14 @@ erhand:
         toolstripobj.Text = cImageVal.Value & "/" & cImageVal.Maximum
         If imgIncluded(cImageVal.Value) = False Then
             incCheck.Checked = False
-            incCheck.BackColor = Color.FromArgb(255, 192, 192)
+            incCheck.BackColor = Color.Red
         Else
             incCheck.Checked = True
-            incCheck.BackColor = Color.FromArgb(192, 255, 192)
+            incCheck.BackColor = Color.Green
 
         End If
+        cfilename.Text = "Current filename: " & imagepath(cImageVal.Value)
+        Application.DoEvents()
 
 
 
@@ -268,10 +328,11 @@ erhand:
         pleasewaitpanel.Visible = True
         Application.DoEvents()
         imagef(cImageVal.Value).Read(imagepath(cImageVal.Value))
-
+        imagef(cImageVal.Value).Grayscale(PixelIntensityMethod.Average)
 
         If despeckle.Checked Then imagef(cImageVal.Value).Despeckle()
         If denoise.Checked Then imagef(cImageVal.Value).ReduceNoise(Val(noiseradius.Text))
+
         imagef(cImageVal.Value).Level(CUShort(threshMin.Value), CUShort(threshMax.Value))
 
         Dim ovImg As MagickImage
@@ -314,8 +375,11 @@ erhand:
         Dim ovImg As MagickImage
         Dim Bmphandle As Bitmap
 
+
+
         For n = 0 To imgCount - 1
             imagef(n).Read(imagepath(n))
+            imagef(n).Grayscale(PixelIntensityMethod.Average)
             imagef(n).Level(CUShort(threshMin.Value), CUShort(threshMax.Value))
             If despeckle.Checked Then imagef(n).Despeckle()
             If denoise.Checked Then imagef(n).ReduceNoise(Val(noiseradius.Text))
@@ -361,6 +425,8 @@ erhand:
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
+        'hide TabPage4 as the main purpose was for the production of data for the accompanying manuscript.
+        TabControl1.TabPages.Remove(TabPage4)
 
         Dim runTimeResourceSet As Object
         Dim dictEntry As DictionaryEntry
@@ -376,6 +442,12 @@ erhand:
             End If
         Next
 
+        For n = 1 To 200
+            expfulldata.Items.Add(n)
+        Next
+
+        pxstepDropdown.SelectedIndex = 2
+        statpxStep = 3
 
         Dim identity = WindowsIdentity.GetCurrent()
         Dim principal = New WindowsPrincipal(identity)
@@ -384,7 +456,7 @@ erhand:
 
     End Sub
 
-    Private Sub scoreFrame(sender As Object, e As EventArgs) Handles scoref0.Click, Button5.Click, Button6.Click, Button7.Click, Button8.Click, Button9.Click
+    Private Sub scoreFrame(sender As Object, e As EventArgs) Handles scoref0.Click, Button9.Click, Button8.Click, Button7.Click, Button6.Click, Button5.Click
 
 
         imgScore(cImageVal.Value) = Val(sender.text)
@@ -397,7 +469,7 @@ erhand:
     End Sub
 
     Private Sub lowthreshslider_Scroll(sender As Object, e As EventArgs) Handles lowthreshslider.Scroll
-        threshMin.value = sender.value
+        threshMin.Value = sender.value
 
     End Sub
 
@@ -441,10 +513,11 @@ erhand:
 
 
         'Use PSPP to perform statistics
-        tmpfile1 = Application.StartupPath & "\pspp\command.cmd"
-        tmpfile2 = Application.StartupPath & "\pspp\data.csv"
+        tmpfile1 = Application.StartupPath & "\psppFolder\command.cmd"
+        tmpfile2 = Application.StartupPath & "\psppFolder\data.csv"
         If IO.File.Exists(tmpfile1) Then IO.File.Delete(tmpfile1)
         If IO.File.Exists(tmpfile2) Then IO.File.Delete(tmpfile2)
+        toolstripobj.Text = "OCS1 complete"
 
 
         Debug.Print("CMD>" & tmpfile1)
@@ -454,12 +527,13 @@ erhand:
         IO.File.AppendAllText(tmpfile1, "SET FORMAT F30.14." & vbCrLf)
         IO.File.AppendAllText(tmpfile1, "GET DATA /TYPE=TXT" & vbCrLf)
         IO.File.AppendAllText(tmpfile1, "   /FILE='" & tmpfile2 & "'" & vbCrLf)
-                IO.File.AppendAllText(tmpfile1, "   /ARRANGEMENT=DELIMITED" & vbCrLf)
+        IO.File.AppendAllText(tmpfile1, "   /ARRANGEMENT=DELIMITED" & vbCrLf)
         IO.File.AppendAllText(tmpfile1, "   /DELIMITERS=','" & vbCrLf)
         IO.File.AppendAllText(tmpfile1, "   /FIRSTCASE=1" & vbCrLf)
 
         IO.File.AppendAllText(tmpfile1, "   /VARIABLES=")
         vstr = ""
+        toolstripobj.Text = "OCS2 complete"
 
         If enDeviation.Text = "Y" Then IO.File.AppendAllText(tmpfile1, "sDev F6.4" & vbCrLf) : vstr = vstr & "sDev "
         If enEntropy.Text = "Y" Then IO.File.AppendAllText(tmpfile1, "sEnt F6.5" & vbCrLf) : vstr = vstr & "sEnt "
@@ -475,9 +549,13 @@ erhand:
 
         IO.File.AppendAllText(tmpfile1, "quality F18.9." & vbCrLf)
         IO.File.AppendAllText(tmpfile1, "REGRESSION /VARIABLES=" & vstr & "/STATISTICS coeff r /DEPENDENT quality.")
+        toolstripobj.Text = "OCS3 complete"
 
         Debug.Print(tmpfile1)
         Debug.Print(tmpfile2)
+
+        toolstripobj.Text = "OCS3a complete"
+
 
         For n = 0 To imgCount - 1
             stp = ""
@@ -494,23 +572,32 @@ erhand:
             If enUniqueColours.Text = "Y" Then stp = stp & statUniqueColour(n) & ","
             If enPixelRamp.Text = "Y" Then stp = stp & statPixelRamp(n) & ","
             stp = stp & imgScore(n)
-            If imgScore(n) > -1 Then
-                IO.File.AppendAllText(tmpfile2, stp & vbCrLf)
-            End If
+            'this information is published to the secondary temporary file (e.g. the data file)
+            toolstripobj.Text = "OCS3b complete"
+
+            If imgScore(n) > -1 Then IO.File.AppendAllText(tmpfile2, stp & vbCrLf)
+
+            toolstripobj.Text = "OCS3c complete"
 
         Next
+
+        toolstripobj.Text = "OCS4 complete"
+
 
         Dim proc = New Process()
         proc.StartInfo.UseShellExecute = False
         proc.StartInfo.RedirectStandardError = True
         proc.StartInfo.RedirectStandardOutput = True
         proc.StartInfo.CreateNoWindow = True
-        proc.StartInfo.FileName = Application.StartupPath & "\pspp\pspp.exe"
+        proc.StartInfo.FileName = Application.StartupPath & "\psppFolder\pspp.exe"
         proc.StartInfo.Arguments = "-O format=csv " & Chr(34) & tmpfile1 & Chr(34)
-        proc.StartInfo.WorkingDirectory = Application.StartupPath & "\pspp"
+        proc.StartInfo.WorkingDirectory = Application.StartupPath & "\psppFolder"
         proc.Start()
         statwait.Refresh()
         Application.DoEvents()
+
+        toolstripobj.Text = "OCS5 complete"
+
 
         rsp = proc.WaitForExit(5000)
         If rsp = False Then
@@ -523,9 +610,13 @@ erhand:
         Debug.Print(txtResp)
         txtRespL = Split(txtResp, Environment.NewLine)
 
+        toolstripobj.Text = "OCS6 complete"
+
+
         'process the incoming data
         nlFlag = ""
         For Each ltxt As String In txtRespL
+            Debug.Print(ltxt)
 
             If ltxt.Length = 0 Then Continue For
 
@@ -533,8 +624,11 @@ erhand:
 
             If nlFlag = "rsquared" Then
                 tmparray = Split(ltxt, ",")
-                Label33.Text = "Adjusted R2: " & CDbl(tmparray(3))
-                adjR2 = CDbl(tmparray(3))
+                If InStr(tmparray(3), "Infinity") = 0 Then
+                    Label33.Text = "Adjusted R2: " & CDbl(tmparray(3))
+                    adjR2 = CDbl(tmparray(3))
+                End If
+                If InStr(tmparray(3), "Infinity") > 0 Then Label33.Text = "Adjusted R2: Infinity"
                 nlFlag = "coeff"
             End If
 
@@ -639,11 +733,11 @@ erhand:
 
         RunMLR = adjR2
 
+        toolstripobj.Text = "OCS7 complete"
 
 
     End Function
-    Private Sub enUniqueColours_Click(sender As Object, e As EventArgs) Handles enUniqueColours.Click, enDeviation.Click, enEntropy.Click,
-        enIntDen.Click, enKurtosis.Click, enMaximum.Click, enMean.Click, enQID.Click, enSkewness.Click, enSumSquared.Click, enPixelRamp.Click
+    Private Sub enUniqueColours_Click(sender As Object, e As EventArgs) Handles enUniqueColours.Click, enSumSquared.Click, enSkewness.Click, enQID.Click, enPixelRamp.Click, enMean.Click, enMaximum.Click, enKurtosis.Click, enIntDen.Click, enEntropy.Click, enDeviation.Click
 
         If sender.text = "Y" Then sender.text = "N" Else sender.text = "Y"
 
@@ -667,6 +761,15 @@ erhand:
     End Sub
 
     Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click
+
+
+        DoSWMLR()
+
+
+    End Sub
+
+    Private Sub DoSWMLR()
+
         'perform the step wise MLR
         Dim sninc As Integer
         Dim rsv As Double
@@ -732,7 +835,6 @@ beginSLoop:
                 Debug.Print(">>>>>>>>>" & Me.TabPage3.Controls("TableLayoutPanel1").Controls(maxPobj).Name)
                 Me.TabPage3.Controls("TableLayoutPanel1").Controls(maxPobj.Replace("sig", "en")).Text = "Y"
                 RunMLR()
-                MsgBox("Automatic stepwise regression finished. Please examine the model and R2, as the routine finished suboptimally.", MsgBoxStyle.Information)
                 GoTo exitSLoop
             End If
 
@@ -743,21 +845,18 @@ beginSLoop:
 
         End If
 
-        'There's no more stats above 0.05.
-        MsgBox("Automatic stepwise regression finished.", MsgBoxStyle.Information)
-
 
 exitSLoop:
         statwait.Visible = False
 
-
     End Sub
+
 
     Private Sub Button12_Click(sender As Object, e As EventArgs) Handles Button12.Click
         Dim rtot As Double
         statwait.Visible = True
         statwait.Refresh()
-        Application.doevents
+        Application.DoEvents()
 
         For n = 0 To imgCount - 1
 
@@ -781,7 +880,7 @@ exitSLoop:
                 End If
 
                 toolstripobj.Text = "Processing frame " & n
-                tsProgress.Value = n
+                If n < tsProgress.Maximum Then tsProgress.Value = n + 1
 
             Next
 
@@ -791,7 +890,7 @@ exitSLoop:
 
         statwait.Visible = False
 
-        updateStatistics
+        updateStatistics()
     End Sub
 
     Private Sub updateStatistics(Optional imgval As Integer = -1)
@@ -802,6 +901,12 @@ exitSLoop:
             sts = imgval
         Else
             sts = cImageVal.Value
+        End If
+
+        If ListBox1.Items.Count = 0 Then
+            For xx = 0 To 12
+                ListBox1.Items.Add("-")
+            Next xx
         End If
 
         prv = ListBox1.TopIndex
@@ -825,7 +930,7 @@ exitSLoop:
 
     End Sub
 
-    Private Sub Form1_MouseWheel(sender As Object, e As MouseEventArgs) Handles Me.MouseWheel
+    Private Sub Form1_MouseWheel(sender As Object, e As MouseEventArgs) Handles MyBase.MouseWheel
 
         If e.Delta > 0 And cImageVal.Value < cImageVal.Maximum Then cImageVal.Value = cImageVal.Value + 1
         If e.Delta < 0 And cImageVal.Value > 0 Then cImageVal.Value = cImageVal.Value - 1
@@ -887,7 +992,13 @@ filewriteerror:
     End Sub
 
     Private Sub incCheck_CheckedChanged(sender As Object, e As EventArgs) Handles incCheck.CheckedChanged
-        If sender.checked = True Then imgIncluded(cImageVal.Value) = True Else imgIncluded(cImageVal.Value) = False
+        If sender.checked = True Then
+            imgIncluded(cImageVal.Value) = True
+            incCheck.BackColor = Color.Green
+        Else
+            imgIncluded(cImageVal.Value) = False
+            incCheck.BackColor = Color.PaleVioletRed
+        End If
 
     End Sub
 
@@ -897,6 +1008,13 @@ filewriteerror:
 
     Private Sub TrackBar1_Scroll(sender As Object, e As EventArgs) Handles TrackBar1.Scroll
         exclabel.Text = (sender.value / 10)
+        Label30.Text = CalculateWindow(sender.value / 10)
+        If imgCount = 0 Then Exit Sub
+        For n = 0 To imgCount - 1
+            If calcScore(n) >= CDbl(exclabel.Text) Then imgIncluded(n) = True Else imgIncluded(n) = False
+            If Not imgScore(n) = -1 And imgScore(n) > CDbl(exclabel.Text) Then imgIncluded(n) = True
+        Next
+        longtermstatus.Text = imgIncluded.Count(Function(x) x = True) & " images remain in set (" & imgIncluded.Count(Function(x) x = False) & " excluded)"
 
     End Sub
 
@@ -906,11 +1024,6 @@ filewriteerror:
 
     Private Sub TrackBar1_MouseUp(sender As Object, e As MouseEventArgs) Handles TrackBar1.MouseUp
         exclabel.Text = (sender.value / 10)
-        If imgCount = 0 Then Exit Sub
-        For n = 0 To imgCount
-            If calcScore(n) >= sender.value Then imgIncluded(n) = True Else imgIncluded(n) = False
-            If Not imgScore(n) = -1 And imgScore(n) > sender.value Then imgIncluded(n) = True
-        Next
     End Sub
 
     Private Sub Button15_Click(sender As Object, e As EventArgs) Handles Button15.Click
@@ -947,4 +1060,536 @@ filewriteerror:
         MsgBox("File saved.")
 
     End Sub
+
+    Private Sub Button16_Click(sender As Object, e As EventArgs) Handles Button16.Click
+
+        fbd1.ShowDialog()
+
+        For n = 0 To imgCount - 1
+            'only export the frame if it's not excluded
+
+            If skipcheck.Checked = True And imgIncluded(n) = True Then imagef(n).Write(fbd1.SelectedPath & "\frame" & Format(n, "00000000") & "." & outputformat.Text)
+            If skipcheck.Checked = False Then imagef(n).Write(fbd1.SelectedPath & "\frame" & Format(n, "00000000") & "." & outputformat.Text)
+
+            toolstripobj.Text = "Saving image " & n
+            tsProgress.Value = n + 1
+
+        Next
+
+    End Sub
+
+    Private Sub Button17_Click(sender As Object, e As EventArgs) Handles Button17.Click
+        Dim imgcol As MagickImageCollection
+        Dim imgHold As MagickImage
+        Dim n As Integer
+
+        ofd.ShowDialog()
+        imgHold = New MagickImage(ofd.FileName)
+        imgcol = New MagickImageCollection(ofd.FileName)
+
+        MsgBox("The video has " & imgcol.Count & " frames. Choose an output folder. Frames will be written as TIFF")
+        fbd.ShowDialog()
+
+
+        For n = 0 To imgcol.Count - 1
+
+            imgcol(n).Write(fbd.SelectedPath & "\frame" & Format(n, "000000000") & ".tiff")
+
+        Next
+
+        MsgBox("Video frames successfully converted to images.")
+
+    End Sub
+
+    Private Sub TabPage4_Click(sender As Object, e As EventArgs) Handles TabPage4.Click
+
+    End Sub
+
+    Public Function CalculateWindow(cutoff As Double)
+        Dim framefailed As Boolean
+        Dim frame_end As Integer
+        Dim minframewidth As Integer
+
+        fwidth.Items.Clear()
+        fwidth.Items.Add("Best")
+
+        For n = 1 To Int(imgCount / 2)
+            fwidth.Items.Add(CStr(n))
+        Next
+
+        For currentstep = 1 To Int(imgCount / 4)
+            framefailed = True
+
+            For frame_start = 0 To imgCount - 1 Step currentstep
+
+                frame_end = frame_start + (currentstep - 1)
+                If frame_end > imgCount - 1 Then Exit For
+                framefailed = True
+
+                For n = frame_start To frame_end
+                    If calcScore(n) > cutoff Then framefailed = False
+                Next
+
+                If framefailed = True Then
+                    'you might as well leave the whole routine because it's failed.
+
+                    Exit For
+
+                End If
+
+
+
+
+            Next frame_start
+
+            If minframewidth = 0 And framefailed = False Then minframewidth = currentstep
+
+        Next currentstep
+
+        CalculateWindow = minframewidth
+
+    End Function
+
+    Private Sub Button18_Click(sender As Object, e As EventArgs) Handles Button18.Click
+        Dim gdc As Integer
+        Dim bdc As Integer
+        Dim fmw As Integer
+        Dim frame_end As Integer
+        Dim fhv As Integer
+        Dim fhv_num As Integer
+        Dim framefailed As Boolean
+        Dim nows As Integer
+
+        If fwidth.SelectedItem = "Best" Then
+            fmw = Label30.Text
+        Else
+            fmw = CDbl(fwidth.SelectedItem)
+        End If
+
+        For n = 0 To imgCount - 1
+            If imgIncluded(n) = True Then gdc = gdc + 1
+            If imgIncluded(n) = False Then bdc = bdc + 1
+        Next
+
+        longtermstatus.Text = "Pre-windowing: " & gdc & " included, " & bdc & " excluded"
+
+        For frame_start = 0 To imgCount Step CDbl(fmw)
+
+            frame_end = frame_start + (fmw - 1)
+            If frame_end > imgCount Then
+                frame_end = imgCount - 1
+            End If
+            If frame_start > frame_end Then
+                '?
+                Exit For
+            End If
+
+            framefailed = True
+            fhv = 0
+            fhv_num = -1
+            If frame_end > imgCount - 1 Then frame_end = imgCount - 1
+            For n = frame_start To frame_end
+                'if the frame is included then then see if it is higher than all the others.
+                If calcScore(n) > fhv Then fhv = calcScore(n) : fhv_num = n
+
+                imgIncluded(n) = False
+            Next
+            If fhv_num > -1 Then
+                imgIncluded(fhv_num) = True
+                nows = nows + 1
+            End If
+
+
+
+        Next frame_start
+        gdc = 0
+        bdc = 0
+        For n = 0 To imgCount - 1
+            If imgIncluded(n) = True Then gdc = gdc + 1
+            If imgIncluded(n) = False Then bdc = bdc + 1
+        Next
+
+        longtermstatus.Text = "Post-windowing: " & gdc & " included, " & bdc & " excluded"
+
+
+    End Sub
+
+    Private Sub Button19_Click(sender As Object, e As EventArgs) Handles Button19.Click
+        Dim opfl As IO.StreamReader
+        Dim setname As String
+        Dim cfn As Integer
+
+        swlimit.Items.Clear()
+        swlimit.Items.Add("No limit")
+
+
+
+
+        ofd.AddExtension = True
+        ofd.DefaultExt = "*.txt"
+        ofd.Filter = "Text files|*.txt"
+        ofd.ShowDialog()
+
+        If ofd.FileName = "" Then MsgBox("Load cancelled.") : Exit Sub
+
+        opfl = My.Computer.FileSystem.OpenTextFileReader(ofd.FileName)
+
+        setname = opfl.ReadLine
+        imgCount = CDbl(opfl.ReadLine)
+
+        For n = 1 To imgCount - 1
+            swlimit.Items.Add(n)
+        Next
+
+        ReDim imagef(imgCount - 1)
+        ReDim imagefinfo(imgCount - 1)
+        GC.SuppressFinalize(imagef)
+
+        ReDim statUniqueColour(imgCount - 1)
+        ReDim statEntropy(imgCount - 1)
+        ReDim statKurtosis(imgCount - 1)
+        ReDim statMaximum(imgCount - 1)
+        ReDim statMean(imgCount - 1)
+        ReDim statSkewness(imgCount - 1)
+        ReDim statDeviation(imgCount - 1)
+        ReDim statIntDensity(imgCount - 1)
+        ReDim statPixelRamp(imgCount - 1)
+        ReDim statQID(imgCount - 1)
+        ReDim imagepath(imgCount - 1)
+        ReDim statSumSquared(imgCount - 1)
+        ReDim imgScore(imgCount - 1)
+        ReDim calcScore(imgCount - 1)
+        ReDim imgIncluded(imgCount - 1)
+
+        Do While opfl.EndOfStream = False
+
+            imagepath(cfn) = opfl.ReadLine
+            statDeviation(cfn) = CDbl(opfl.ReadLine)
+            statEntropy(cfn) = CDbl(opfl.ReadLine)
+            statIntDensity(cfn) = CDbl(opfl.ReadLine)
+            statKurtosis(cfn) = CDbl(opfl.ReadLine)
+            statMaximum(cfn) = CDbl(opfl.ReadLine)
+            statMean(cfn) = CDbl(opfl.ReadLine)
+            statPixelRamp(cfn) = CDbl(opfl.ReadLine)
+            statQID(cfn) = CDbl(opfl.ReadLine)
+            statSkewness(cfn) = CDbl(opfl.ReadLine)
+            statSumSquared(cfn) = CDbl(opfl.ReadLine)
+            statUniqueColour(cfn) = CDbl(opfl.ReadLine)
+            imgScore(cfn) = CDbl(opfl.ReadLine)
+            cfn = cfn + 1
+        Loop
+        opfl.Close()
+
+    End Sub
+
+    Private Sub Button21_Click(sender As Object, e As EventArgs) Handles Button21.Click
+        Dim pbrd As String
+
+        For n = 0 To imgCount - 1
+
+            pbrd = pbrd & imgScore(n) & vbCrLf
+
+        Next
+
+        Clipboard.SetText(pbrd)
+
+    End Sub
+
+    Private Sub Button20_Click(sender As Object, e As EventArgs) Handles Button20.Click
+        Dim pbrd As String
+
+        For n = 0 To imgCount - 1
+
+            pbrd = pbrd & calcScore(n) & vbCrLf
+
+        Next
+
+        Clipboard.SetText(pbrd)
+
+    End Sub
+
+    Private Sub Button22_Click(sender As Object, e As EventArgs) Handles Button22.Click
+        Dim opfl As IO.StreamReader
+        Dim setname As String
+        Dim cfn As Integer
+        Dim ofdres As DialogResult
+
+        ofd.AddExtension = True
+        ofd.DefaultExt = "*.txt"
+        ofd.Filter = "Text files|*.txt"
+        ofdres = ofd.ShowDialog()
+
+        If ofdres = Windows.Forms.DialogResult.Cancel Then MsgBox("Load cancelled.") : Exit Sub
+
+        opfl = My.Computer.FileSystem.OpenTextFileReader(ofd.FileName)
+
+        Do While opfl.EndOfStream = False
+
+            imgScore(cfn) = CDbl(opfl.ReadLine)
+            cfn = cfn + 1
+
+        Loop
+        opfl.Close()
+
+        swlimit.Items.Clear()
+        swlimit.Items.Add("No limit")
+
+        For n = 1 To imgCount - 1
+            swlimit.Items.Add(n)
+        Next
+
+        swlimit.SelectedIndex = 0
+
+
+    End Sub
+
+    Private Sub Button23_Click(sender As Object, e As EventArgs) Handles Button23.Click
+        Dim tStart As Single
+        Dim tEnd As Single
+
+
+startagain:
+        enDeviation.Text = "Y"
+        enEntropy.Text = "Y"
+        enIntDen.Text = "Y"
+        enKurtosis.Text = "Y"
+        enMaximum.Text = "Y"
+        enMean.Text = "Y"
+        enPixelRamp.Text = "Y"
+        enQID.Text = "Y"
+        enSkewness.Text = "Y"
+        enSumSquared.Text = "Y"
+        enUniqueColours.Text = "Y"
+        Application.DoEvents()
+
+
+
+        Call Button11_Click(sender, e)
+        Application.DoEvents()
+
+        Call Button20_Click(sender, e)
+        Application.DoEvents()
+
+        Call Button12_Click(sender, e)
+        Application.DoEvents()
+
+        Dim pbrd As String
+
+        For n = 0 To imgCount - 1
+
+            pbrd = pbrd & calcScore(n) & vbCrLf
+
+        Next
+
+        Clipboard.SetText(pbrd)
+
+
+        swlimit.SelectedIndex += 2
+
+
+
+        If swlimit.Text <> "64" Then
+            toolstripobj.Text = "waiting 4 seconds, have pasted " & (swlimit.SelectedIndex - 2)
+
+
+
+            tStart = Microsoft.VisualBasic.Timer()
+            tEnd = 1 + Microsoft.VisualBasic.Timer()
+            Clipboard.SetText(pbrd)
+            Do While tEnd > tStart
+                Application.DoEvents()
+                tStart = Microsoft.VisualBasic.Timer()
+            Loop
+            Clipboard.SetText(pbrd)
+            toolstripobj.Text = "working"
+
+            pbrd = ""
+
+            System.Windows.Forms.SendKeys.Send("{RIGHT}")
+            System.Windows.Forms.SendKeys.Send("^v")
+
+            GoTo startagain
+
+        End If
+
+    End Sub
+
+    Private Sub Button24_Click(sender As Object, e As EventArgs) Handles Button24.Click
+        Dim stp As String
+        Dim delim As String
+        delim = vbTab
+        For n = 0 To Val(expfulldata.SelectedItem)
+
+            stp = stp & statDeviation(n) & delim
+            stp = stp & statEntropy(n) & delim
+            stp = stp & statIntDensity(n) & delim
+            stp = stp & statKurtosis(n) & delim
+            stp = stp & statMaximum(n) & delim
+            stp = stp & statMean(n) & delim
+            stp = stp & statQID(n) & delim
+            stp = stp & statSkewness(n) & delim
+            stp = stp & statSumSquared(n) & delim
+            stp = stp & statUniqueColour(n) & delim
+            stp = stp & statPixelRamp(n) & delim
+            stp = stp & imgScore(n)
+            stp = stp & vbCrLf
+
+        Next
+
+        Clipboard.SetText(stp)
+        MsgBox("Copied to clipboard")
+    End Sub
+
+    Private Sub Button25_Click(sender As Object, e As EventArgs) Handles Button25.Click
+        Dim opfl As IO.StreamReader
+        Dim strL As String
+        Dim vrs() As String
+        Dim cvr As Integer
+
+        ofd.AddExtension = True
+        ofd.DefaultExt = "*.txt"
+        ofd.Filter = "CSV Data files|*.txt"
+        ofd.ShowDialog()
+
+        If ofd.FileName = "" Then MsgBox("Load cancelled.") : Exit Sub
+
+        MsgBox("This will overwrite the statistics of the current image set and is only for the purposes of analysis. The current image set will no longer be valid and will need to be reloaded.")
+
+        opfl = My.Computer.FileSystem.OpenTextFileReader(ofd.FileName)
+
+        Do While opfl.EndOfStream = False
+
+            strL = opfl.ReadLine
+
+            If InStr(strL, ",") > 0 Then
+
+                vrs = Split(strL, ",")
+
+                statDeviation(cvr) = vrs(0)
+                statEntropy(cvr) = vrs(1)
+                statIntDensity(cvr) = vrs(2)
+                statKurtosis(cvr) = vrs(3)
+                statMaximum(cvr) = vrs(4)
+                statMean(cvr) = vrs(5)
+                statQID(cvr) = vrs(6)
+                statSkewness(cvr) = vrs(7)
+                statSumSquared(cvr) = vrs(8)
+                statUniqueColour(cvr) = vrs(9)
+                statPixelRamp(cvr) = vrs(10)
+                imgScore(cvr) = vrs(11)
+
+                cvr = cvr + 1
+
+            End If
+
+
+        Loop
+        opfl.Close()
+
+        swlimit.Items.Clear()
+        swlimit.Items.Add("No limit")
+
+        For n = 1 To imgCount - 1
+            swlimit.Items.Add(n)
+        Next
+
+        swlimit.SelectedIndex = 0
+
+    End Sub
+
+    Private Sub swlimit_SelectedIndexChanged(sender As Object, e As EventArgs) Handles swlimit.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub pxstepDropdown_SelectedIndexChanged(sender As Object, e As EventArgs) Handles pxstepDropdown.SelectedIndexChanged
+
+        statpxStep = pxstepDropdown.SelectedIndex + 1
+        toolstripobj.Text = "Set statistics pixel step to " & statpxStep
+    End Sub
+
+    Private Sub Button26_Click(sender As Object, e As EventArgs) Handles Button26.Click
+        Dim vidwriter As New Accord.Video.FFMPEG.VideoFileWriter
+        Dim n As Integer
+        Dim bmpholder As Bitmap
+
+        sfd1.ShowDialog()
+        If sfd1.FileName = "" Then Exit Sub
+        If Strings.Right(sfd1.FileName.ToUpper, 3) <> "AVI" Then
+            sfd1.FileName = sfd1.FileName & ".avi"
+        End If
+
+        vidwriter.Open(sfd1.FileName, imagef(0).Width, imagef(0).Height, 10, Accord.Video.FFMPEG.VideoCodec.Raw)
+
+
+        For n = 0 To imgCount - 1
+
+            If imgIncluded(n) = True Then
+                bmpholder = imagef(n).ToBitmap
+                vidwriter.WriteVideoFrame(bmpholder)
+            End If
+
+        Next
+
+        vidwriter.Close()
+        vidwriter.Dispose()
+        MsgBox("Finished writing video.")
+    End Sub
+
+    Private Sub Button28_Click_1(sender As Object, e As EventArgs) Handles Button28.Click
+        Form2.ShowDialog()
+    End Sub
+
+    Private Sub Button27_Click(sender As Object, e As EventArgs) Handles Button27.Click
+        Dim minval As Double
+        Dim maxval As Double
+        Dim dval As Double
+
+        'find the lowest calc value
+        minval = calcScore.Min
+        'adjust the calcscores based on this.
+        For n = 0 To imgCount - 1
+
+            If minval < 0 Then
+                calcScore(n) = calcScore(n) + Math.Abs(minval)
+            End If
+
+            If minval > 0 Then
+                calcScore(n) = calcScore(n) - minval
+            End If
+
+        Next
+
+        'get max value
+        maxval = calcScore.Max
+        dval = (maxval / 5)
+
+        For n = 0 To imgCount - 1
+
+            calcScore(n) = calcScore(n) / dval
+
+        Next
+        MsgBox("Calculated score ranging completed.")
+
+    End Sub
+
+    Private Sub Button29_Click(sender As Object, e As EventArgs) Handles Button29.Click
+        Clipboard.SetText(Replace(ListBox1.SelectedItem.ToString, ":", vbTab))
+    End Sub
+
+    Private Sub PictureBox1_MouseClick(sender As Object, e As MouseEventArgs) Handles PictureBox1.MouseClick
+
+        On Error GoTo leaveroutine
+        Dim fPixel As IPixelCollection
+        Dim pxV As Double
+        fPixel = imagef(cImageVal.Value).GetPixels
+        pxV = fPixel.GetValue(e.X, e.Y).GetValue(0)
+        PixelIntLabel.Text = pxV.ToString
+
+
+        Exit Sub
+
+leaveroutine:
+    End Sub
+
+
 End Class

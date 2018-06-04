@@ -21,3 +21,4 @@ C:\Users\kavan\Documents\TifyVBNET\TifyVBNET\TifyVBNET\obj\Release\TifyVBNET.vbp
 C:\Users\kavan\Documents\TifyVBNET\TifyVBNET\TifyVBNET\obj\Release\TifyVBNET.exe
 C:\Users\kavan\Documents\TifyVBNET\TifyVBNET\TifyVBNET\obj\Release\TifyVBNET.xml
 C:\Users\kavan\Documents\TifyVBNET\TifyVBNET\TifyVBNET\obj\Release\TifyVBNET.pdb
+C:\Users\kavan\Documents\TifyVBNET\TifyVBNET\TifyVBNET\obj\Release\TifyVBNET.TrustInfo.xml

@@ -23,7 +23,7 @@ Module Module1
     Public calcScore() As Double
     Public imgIncluded() As Boolean
 
-
+    Public statpxStep As Integer
 
 
     Public imgCount As Double

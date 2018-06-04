@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
-  <asmv1:assemblyIdentity name="TifyVBNET.exe" version="1.0.0.1" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
+  <asmv1:assemblyIdentity name="TifyVBNET.exe" version="1.0.0.14" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
   <application />
   <entryPoint>
     <assemblyIdentity name="TifyVBNET" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
@@ -9,22 +9,22 @@
   <trustInfo>
     <security>
       <applicationRequestMinimum>
-        <PermissionSet Unrestricted="true" ID="Custom" SameSite="site" />
+        <PermissionSet version="1" class="System.Security.NamedPermissionSet" Name="LocalIntranet" Description="Default rights given to applications on the local intranet" Unrestricted="true" ID="Custom" SameSite="site" />
         <defaultAssemblyRequest permissionSetReference="Custom" />
       </applicationRequestMinimum>
       <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
-        <!--
-          UAC Manifest Options
-          If you want to change the Windows User Account Control level replace the 
-          requestedExecutionLevel node with one of the following.
+        <!-- UAC Manifest Options
+             If you want to change the Windows User Account Control level replace the 
+             requestedExecutionLevel node with one of the following.
 
         <requestedExecutionLevel  level="asInvoker" uiAccess="false" />
         <requestedExecutionLevel  level="requireAdministrator" uiAccess="false" />
         <requestedExecutionLevel  level="highestAvailable" uiAccess="false" />
 
-         If you want to utilize File and Registry Virtualization for backward 
-         compatibility then delete the requestedExecutionLevel node.
-    -->
+            Specifying requestedExecutionLevel element will disable file and registry virtualization. 
+            Remove this element if your application requires this virtualization for backwards
+            compatibility.
+        -->
         <requestedExecutionLevel level="asInvoker" uiAccess="false" />
       </requestedPrivileges>
     </security>
@@ -39,6 +39,42 @@
   <dependency>
     <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
       <assemblyIdentity name="Microsoft.Windows.CommonLanguageRuntime" version="4.0.30319.0" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Accord.dll" size="131072">
+      <assemblyIdentity name="Accord" version="3.8.0.0" publicKeyToken="FA1A88E29555CCF7" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>uOuhJsy+HmQbBi+hpPRdCUUZvVvG6oGkok1MLlSeiD8=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Accord.Video.dll" size="40960">
+      <assemblyIdentity name="Accord.Video" version="3.8.0.0" publicKeyToken="FA1A88E29555CCF7" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>xPBJqOlNa44HZj0K1m6Pba96lgQ8MBYUouE9dNLu/GA=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Accord.Video.FFMPEG.dll" size="120832">
+      <assemblyIdentity name="Accord.Video.FFMPEG" version="3.8.0.0" publicKeyToken="FA1A88E29555CCF7" language="neutral" processorArchitecture="x86" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>u/HrdZpHDArgRzEIMUcQUgpp0xn9UgjhvA6QPB/Tly0=</dsig:DigestValue>
+      </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
@@ -66,17 +102,467 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TifyVBNET.exe" size="313312">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TifyVBNET.exe" size="340448">
       <assemblyIdentity name="TifyVBNET" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>e1Jkz+ky1rpu86LX1Ta7Oe7BnT06fSep6LaFslXKVl4=</dsig:DigestValue>
+        <dsig:DigestValue>a1C0nRSnuR1Q/aeOmB4+Y/zG9OAlXkv+otZE4C5ly7I=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
+  <file name="Accord.dll.config" size="213">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>MEnoP5t/qShagvs8d0DpwiW2ajH4BdNYKpv9NLXdjm4=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\command.cmd" size="426">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>KozRk6Ck8kIVODFZkEE0R4XDI6fndgAtLUuGM68dbJM=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libatk-1.0-0.dll" size="119378">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>bS8PRBKw5WPzmMKtuEWWwOHqY8cTiB06No4vUyzgXhI=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libcairo-2.dll" size="888300">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>YANvJqPXV+w+MwQ2GDgcrCS8yiBTsISEhP5WZFgY37Y=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libcairo-gobject-2.dll" size="31146">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>14/chFMbzFRFcEDiberv5dSXOugtaAVpzn4ausacugM=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libcharset-1.dll" size="95108">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>ymG9uYdXFIt42KD5TJH252h6Q5rrBpnxNXjjZN8Ivz8=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libexpat-1.dll" size="151153">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>SzXZrquyvtJyj1doLH7ZRr5zWr9egtIXXokHq9jlszc=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libffi-6.dll" size="31042">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>UY5Q/7wsW1ldEWvU9ZvMdFNAA1cLdZ3HDXwNkvY3qII=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libfontconfig-1.dll" size="229596">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>xLrrXyP4JWQ29Wf21gNnFvayHCgch7pTVoOhrvU+Ki8=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libfreetype-6.dll" size="487926">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>YSlP7pWdq5xcDU375UtFN1QTAJ1jBs+25Chbq6qZbCo=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libgailutil-3-0.dll" size="43180">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>idKqscUT5mgL1GfW5XF7HqXnRFBUWaHjmPM9kE+/Zpc=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libgcc_s_sjlj-1.dll" size="98340">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>Z9qi4B58WcNH6qWGzu1yM5HtfzNEXxVQEMlFHEusnRM=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libgdk_pixbuf-2.0-0.dll" size="253442">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>Dp+m69AbV8lRqOUZhhPKCpmbYG71Aj9QMuD0wvVAG3w=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libgdk-3-0.dll" size="562410">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>ej/m4/SdkQ04jnZ6N7dJ2IEsmTgJPfcV2odXQFj1U9c=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libgio-2.0-0.dll" size="1205683">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>F5BiRGuVTdWsPOiLM6WyUTTjE28JLcCmX1wVSdEGe8U=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libglib-2.0-0.dll" size="1209104">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>2x7yh2ohVybuJfV70CZ43p/4WRiLcLpmWyY3RmFFVLA=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libgmodule-2.0-0.dll" size="23271">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>i0EDx4J8KeEQ8EcgVyY/tP+wl76xdqLzkoAP3ICpOyU=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libgmp-10.dll" size="399780">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>Vpj27RYpU09xgENQHj1/8G2AhhnceIUFGojpJKRXuLI=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libgobject-2.0-0.dll" size="286696">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>ppFx8UjZGJxvET3bsUK/kLzBLaIiQ0wClunquqODVAI=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libgsl-0.dll" size="1709893">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>80yJXNzzw/bqJLxGVtFZqXYJJyHMdNO6ILEfYTmOTGg=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libgslcblas-0.dll" size="210664">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>K9QD9E4NAmijY8Cjzu8ZEFuKLH5i8GLHbqDn37HWrbM=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libgtk-3-0.dll" size="6244678">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>wB8jFXdXoZxU8IzcfRRQ0T0Coe7tLMMzYQzJCyycuxY=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libgtksourceview-3.0-1.dll" size="2209492">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>DqaMHEYHDxTXr3hVZUniXW80t4aD+zTqMWTqdAiu6dY=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libharfbuzz-0.dll" size="299899">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>xboO4IokeJgSPrvQyj2cVP6BZYoO+6QvrvmYq2sSzvM=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libhistory6.dll" size="31441">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>Usgk2huS93D6qMboT8JH6BqP95VOMubPWCCI5r76tp4=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libiconv-2.dll" size="1331078">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>Uv0BnuJFHbrc8Vw6ACH16jhnxeqP8JtlHtmS67EBTgw=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libintl-8.dll" size="111014">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>ceaEjfSjV+zYKuVAaLRdrNUns8h8+BsVip+diJrm5DM=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libjasper-1.dll" size="261393">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>dfQlmyzF5lJh3lMPuqc+s+FJbg+vv5DKR9cBhCrbUbg=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libjpeg-8.dll" size="349116">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>MkYCh1SACHqUsZzg5hVq7LAeac+v3rp3Sd+hRwqBTVs=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\liblzma-5.dll" size="137554">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>lyU/hlcvHKSD/P3Jus5FD0q/VOhFYLkVJPmCZG7k/QY=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libmpc-3.dll" size="100696">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>1m3fZQ/oqBsqyPnGTjQChF1rFFHzsDwBiZ41wCQwYos=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libmpfr-4.dll" size="345759">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>5unuuDN3oxP+BGHYBNenXVg9iLmAa1i/YqyYR9kImGk=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libpango-1.0-0.dll" size="266596">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>A/R+a7/ug+ONnqbtSnGkjUojnVJxDcs3lfiXspgQQrg=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libpangocairo-1.0-0.dll" size="61019">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>OCWeUpytp+uCONyKgEvzwy4lU5N7NtNkuLOIF5d0gAE=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libpangoft2-1.0-0.dll" size="86824">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>8/OYSdoehpJBY9Dr1SeKpalVRHu/MRPDX7Pu2efRL8U=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libpangowin32-1.0-0.dll" size="73520">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>DBtS30zGvUlwgNmC6BN9h9GYFktjo/cQduZNBX57lHE=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libpixman-1-0.dll" size="4733763">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>HmtrKVAqnMgKKj4UaYPUoGoqRGDSbQbyqBwzC0zJAdQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libpng16-16.dll" size="210725">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>FFs6jqm5Meuh4xwlPxoSo99MbAh11cQcMFLzK+4cIH8=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libpq.dll" size="144896">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>dDCllJP1FBpwfa7qwOvEidZ6rSvkQ1j729d6zbYD9V8=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libreadline6.dll" size="162640">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>gw8QxDvTVPI1ysMJu0wHx/XkJTccWSAMNUB9TtWOTck=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libtermcap-0.dll" size="19475">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>3t7J44btCI9uJfHtV0UXQkVPDcpCninFTemnI6u7KZw=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libtiff-5.dll" size="424462">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>h/ekr1sA96vsp08dIWj4fCWtaXzIoU/rv1tOysQD42w=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libwinpthread-1.dll" size="51453">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>AiDgdVyJj7JqPrMDBl3zYPTJ8F1tS2B4Xe/gKf2nxtc=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\libxml2-2.dll" size="1174526">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>8g3kHHYrEodLLt0UsqqX/BsNwsEHdWe0wGQqJN1wZWE=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\pspp.exe" size="7154925">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>qXCOdPpneTMC+lQf+BCGaLjXTW8j5VSxLsi0wmoVkrI=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\pspp-convert.exe" size="2570002">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>WU6ZYbFOG0Mn1BlamIthUlTYFuOhZLjp+C2vmcpmMN0=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\pspp-dump-sav.exe" size="575214">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>/MJolvewk4Z7odnED6tIkbR/oXP+jAW7Da33FYlV8BI=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\psppire.exe" size="11489301">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>6CBlyw35v1dgTMq59LDGkzgZeYzlKJfJlGQtONlu+Co=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\startPSPP.bat" size="203">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>VpuZw2KhkSnngC7vrDiCGo+96aV2+lbiKC+ouGynTfM=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="psppFolder\zlib1.dll" size="84514">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>yqB7EOWFg3+oiScrV+o6F1qSOB7fkFZDlYsAkPEaSJE=</dsig:DigestValue>
+    </hash>
+  </file>
   <file name="TifyVBNET.exe.config" size="188">
     <hash>
       <dsig:Transforms>
@@ -86,4 +572,21 @@
       <dsig:DigestValue>c922zfRb5ORzqEo8SDjt8Mx8lDMhGTWhqKcK/oileDM=</dsig:DigestValue>
     </hash>
   </file>
+  <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">
+    <application>
+      <!-- A list of the Windows versions that this application has been tested on and is
+           is designed to work with. Uncomment the appropriate elements and Windows will 
+           automatically selected the most compatible environment. -->
+      <!-- Windows Vista -->
+      <!--<supportedOS Id="{e2011457-1546-43c5-a5fe-008deee3d3f0}" />-->
+      <!-- Windows 7 -->
+      <!--<supportedOS Id="{35138b9a-5d96-4fbd-8e2d-a2440225f93a}" />-->
+      <!-- Windows 8 -->
+      <!--<supportedOS Id="{4a2f28e3-53b9-4441-ba9c-d69d4a4a6e38}" />-->
+      <!-- Windows 8.1 -->
+      <!--<supportedOS Id="{1f676c76-80e1-4239-95bb-83d0f6d0da78}" />-->
+      <!-- Windows 10 -->
+      <!--<supportedOS Id="{8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a}" />-->
+    </application>
+  </compatibility>
 </asmv1:assembly>

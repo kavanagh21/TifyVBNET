@@ -28,7 +28,10 @@ Partial Class Form1
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.toolstripobj = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.PixelIntLabel = New System.Windows.Forms.ToolStripStatusLabel()
         Me.tsProgress = New System.Windows.Forms.ToolStripProgressBar()
+        Me.longtermstatus = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.cfilename = New System.Windows.Forms.ToolStripStatusLabel()
         Me.displaytimer = New System.Windows.Forms.Timer(Me.components)
         Me.frameinterval = New System.Windows.Forms.TextBox()
         Me.Label5 = New System.Windows.Forms.Label()
@@ -39,6 +42,12 @@ Partial Class Form1
         Me.Label6 = New System.Windows.Forms.Label()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.fwidth = New System.Windows.Forms.ComboBox()
+        Me.Button18 = New System.Windows.Forms.Button()
+        Me.Label30 = New System.Windows.Forms.Label()
+        Me.Label29 = New System.Windows.Forms.Label()
+        Me.Label28 = New System.Windows.Forms.Label()
+        Me.skipcheck = New System.Windows.Forms.CheckBox()
         Me.exclabel = New System.Windows.Forms.Label()
         Me.Label25 = New System.Windows.Forms.Label()
         Me.TrackBar1 = New System.Windows.Forms.TrackBar()
@@ -58,6 +67,7 @@ Partial Class Form1
         Me.Button6 = New System.Windows.Forms.Button()
         Me.Button7 = New System.Windows.Forms.Button()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
+        Me.setimgminmax = New System.Windows.Forms.CheckBox()
         Me.lutlist = New System.Windows.Forms.ComboBox()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.noiseradius = New System.Windows.Forms.TextBox()
@@ -73,6 +83,9 @@ Partial Class Form1
         Me.Label2 = New System.Windows.Forms.Label()
         Me.lowthreshslider = New System.Windows.Forms.TrackBar()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
+        Me.Button29 = New System.Windows.Forms.Button()
+        Me.Button28 = New System.Windows.Forms.Button()
+        Me.Button27 = New System.Windows.Forms.Button()
         Me.Button14 = New System.Windows.Forms.Button()
         Me.Button13 = New System.Windows.Forms.Button()
         Me.Button12 = New System.Windows.Forms.Button()
@@ -129,11 +142,35 @@ Partial Class Form1
         Me.Label11 = New System.Windows.Forms.Label()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.ListBox1 = New System.Windows.Forms.ListBox()
+        Me.TabPage4 = New System.Windows.Forms.TabPage()
+        Me.Button25 = New System.Windows.Forms.Button()
+        Me.expfulldata = New System.Windows.Forms.ComboBox()
+        Me.Button24 = New System.Windows.Forms.Button()
+        Me.Button23 = New System.Windows.Forms.Button()
+        Me.Button22 = New System.Windows.Forms.Button()
+        Me.Button21 = New System.Windows.Forms.Button()
+        Me.Button20 = New System.Windows.Forms.Button()
+        Me.swlimit = New System.Windows.Forms.ComboBox()
+        Me.Label31 = New System.Windows.Forms.Label()
+        Me.Button19 = New System.Windows.Forms.Button()
+        Me.Button15 = New System.Windows.Forms.Button()
+        Me.TabPage5 = New System.Windows.Forms.TabPage()
+        Me.Button26 = New System.Windows.Forms.Button()
+        Me.outputformat = New System.Windows.Forms.ComboBox()
+        Me.Label27 = New System.Windows.Forms.Label()
+        Me.Button16 = New System.Windows.Forms.Button()
+        Me.Label26 = New System.Windows.Forms.Label()
+        Me.TabPage6 = New System.Windows.Forms.TabPage()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.pxstepDropdown = New System.Windows.Forms.ComboBox()
+        Me.Label32 = New System.Windows.Forms.Label()
         Me.statwait = New System.Windows.Forms.Panel()
         Me.Label23 = New System.Windows.Forms.Label()
         Me.sfd = New System.Windows.Forms.SaveFileDialog()
-        Me.TabPage4 = New System.Windows.Forms.TabPage()
-        Me.Button15 = New System.Windows.Forms.Button()
+        Me.fbd1 = New System.Windows.Forms.FolderBrowserDialog()
+        Me.sfd1 = New System.Windows.Forms.SaveFileDialog()
+        Me.Button17 = New System.Windows.Forms.Button()
+        Me.Label35 = New System.Windows.Forms.Label()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.StatusStrip1.SuspendLayout()
         CType(Me.cImageVal, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -148,8 +185,11 @@ Partial Class Form1
         CType(Me.lowthreshslider, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage3.SuspendLayout()
         Me.TableLayoutPanel1.SuspendLayout()
-        Me.statwait.SuspendLayout()
         Me.TabPage4.SuspendLayout()
+        Me.TabPage5.SuspendLayout()
+        Me.TabPage6.SuspendLayout()
+        Me.GroupBox1.SuspendLayout()
+        Me.statwait.SuspendLayout()
         Me.SuspendLayout()
         '
         'PictureBox1
@@ -160,17 +200,16 @@ Partial Class Form1
         Me.PictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.PictureBox1.Location = New System.Drawing.Point(12, 12)
         Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(704, 681)
-        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PictureBox1.Size = New System.Drawing.Size(712, 644)
         Me.PictureBox1.TabIndex = 1
         Me.PictureBox1.TabStop = False
         '
         'StatusStrip1
         '
-        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.toolstripobj, Me.tsProgress})
-        Me.StatusStrip1.Location = New System.Drawing.Point(0, 752)
+        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.toolstripobj, Me.PixelIntLabel, Me.tsProgress, Me.longtermstatus, Me.cfilename})
+        Me.StatusStrip1.Location = New System.Drawing.Point(0, 671)
         Me.StatusStrip1.Name = "StatusStrip1"
-        Me.StatusStrip1.Size = New System.Drawing.Size(1039, 22)
+        Me.StatusStrip1.Size = New System.Drawing.Size(1047, 22)
         Me.StatusStrip1.TabIndex = 2
         Me.StatusStrip1.Text = "StatusStrip1"
         '
@@ -180,12 +219,30 @@ Partial Class Form1
         Me.toolstripobj.Name = "toolstripobj"
         Me.toolstripobj.Size = New System.Drawing.Size(250, 17)
         Me.toolstripobj.Text = "Status"
-        Me.toolstripobj.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.toolstripobj.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'PixelIntLabel
+        '
+        Me.PixelIntLabel.Name = "PixelIntLabel"
+        Me.PixelIntLabel.Size = New System.Drawing.Size(120, 17)
+        Me.PixelIntLabel.Text = "ToolStripStatusLabel1"
         '
         'tsProgress
         '
         Me.tsProgress.Name = "tsProgress"
         Me.tsProgress.Size = New System.Drawing.Size(100, 16)
+        '
+        'longtermstatus
+        '
+        Me.longtermstatus.Name = "longtermstatus"
+        Me.longtermstatus.Size = New System.Drawing.Size(0, 17)
+        Me.longtermstatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'cfilename
+        '
+        Me.cfilename.Name = "cfilename"
+        Me.cfilename.Size = New System.Drawing.Size(69, 17)
+        Me.cfilename.Text = "Current file:"
         '
         'displaytimer
         '
@@ -269,7 +326,10 @@ Partial Class Form1
         Me.TabControl1.Controls.Add(Me.TabPage2)
         Me.TabControl1.Controls.Add(Me.TabPage3)
         Me.TabControl1.Controls.Add(Me.TabPage4)
-        Me.TabControl1.Location = New System.Drawing.Point(724, 12)
+        Me.TabControl1.Controls.Add(Me.TabPage5)
+        Me.TabControl1.Controls.Add(Me.TabPage6)
+        Me.TabControl1.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TabControl1.Location = New System.Drawing.Point(732, 12)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
         Me.TabControl1.Size = New System.Drawing.Size(303, 646)
@@ -277,6 +337,12 @@ Partial Class Form1
         '
         'TabPage1
         '
+        Me.TabPage1.Controls.Add(Me.fwidth)
+        Me.TabPage1.Controls.Add(Me.Button18)
+        Me.TabPage1.Controls.Add(Me.Label30)
+        Me.TabPage1.Controls.Add(Me.Label29)
+        Me.TabPage1.Controls.Add(Me.Label28)
+        Me.TabPage1.Controls.Add(Me.skipcheck)
         Me.TabPage1.Controls.Add(Me.exclabel)
         Me.TabPage1.Controls.Add(Me.Label25)
         Me.TabPage1.Controls.Add(Me.TrackBar1)
@@ -300,13 +366,68 @@ Partial Class Form1
         Me.TabPage1.Controls.Add(Me.Label1)
         Me.TabPage1.Controls.Add(Me.Button6)
         Me.TabPage1.Controls.Add(Me.Button7)
-        Me.TabPage1.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage1.Location = New System.Drawing.Point(4, 24)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(295, 620)
+        Me.TabPage1.Size = New System.Drawing.Size(295, 618)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "File/play control"
         Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'fwidth
+        '
+        Me.fwidth.FormattingEnabled = True
+        Me.fwidth.Location = New System.Drawing.Point(28, 503)
+        Me.fwidth.Name = "fwidth"
+        Me.fwidth.Size = New System.Drawing.Size(51, 23)
+        Me.fwidth.TabIndex = 30
+        '
+        'Button18
+        '
+        Me.Button18.Location = New System.Drawing.Point(88, 501)
+        Me.Button18.Name = "Button18"
+        Me.Button18.Size = New System.Drawing.Size(116, 26)
+        Me.Button18.TabIndex = 29
+        Me.Button18.Text = "Apply window"
+        Me.Button18.UseVisualStyleBackColor = True
+        '
+        'Label30
+        '
+        Me.Label30.AutoSize = True
+        Me.Label30.Location = New System.Drawing.Point(28, 481)
+        Me.Label30.Name = "Label30"
+        Me.Label30.Size = New System.Drawing.Size(12, 15)
+        Me.Label30.TabIndex = 28
+        Me.Label30.Text = "-"
+        '
+        'Label29
+        '
+        Me.Label29.AutoSize = True
+        Me.Label29.Location = New System.Drawing.Point(28, 466)
+        Me.Label29.Name = "Label29"
+        Me.Label29.Size = New System.Drawing.Size(176, 15)
+        Me.Label29.TabIndex = 27
+        Me.Label29.Text = "Current best achievable window"
+        '
+        'Label28
+        '
+        Me.Label28.AutoSize = True
+        Me.Label28.Location = New System.Drawing.Point(16, 442)
+        Me.Label28.Name = "Label28"
+        Me.Label28.Size = New System.Drawing.Size(102, 15)
+        Me.Label28.TabIndex = 26
+        Me.Label28.Text = "Frame windowing"
+        '
+        'skipcheck
+        '
+        Me.skipcheck.AutoSize = True
+        Me.skipcheck.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.skipcheck.Location = New System.Drawing.Point(12, 397)
+        Me.skipcheck.Name = "skipcheck"
+        Me.skipcheck.Size = New System.Drawing.Size(137, 19)
+        Me.skipcheck.TabIndex = 25
+        Me.skipcheck.Text = "Skip excluded frames"
+        Me.skipcheck.UseVisualStyleBackColor = True
         '
         'exclabel
         '
@@ -331,6 +452,7 @@ Partial Class Form1
         'TrackBar1
         '
         Me.TrackBar1.BackColor = System.Drawing.SystemColors.ControlLightLight
+        Me.TrackBar1.Enabled = False
         Me.TrackBar1.LargeChange = 10
         Me.TrackBar1.Location = New System.Drawing.Point(12, 360)
         Me.TrackBar1.Maximum = 100
@@ -501,6 +623,7 @@ Partial Class Form1
         '
         'TabPage2
         '
+        Me.TabPage2.Controls.Add(Me.setimgminmax)
         Me.TabPage2.Controls.Add(Me.lutlist)
         Me.TabPage2.Controls.Add(Me.Label10)
         Me.TabPage2.Controls.Add(Me.noiseradius)
@@ -515,19 +638,29 @@ Partial Class Form1
         Me.TabPage2.Controls.Add(Me.upperthreshslider)
         Me.TabPage2.Controls.Add(Me.Label2)
         Me.TabPage2.Controls.Add(Me.lowthreshslider)
-        Me.TabPage2.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage2.Location = New System.Drawing.Point(4, 24)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(295, 620)
+        Me.TabPage2.Size = New System.Drawing.Size(295, 618)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Image manipulation"
         Me.TabPage2.UseVisualStyleBackColor = True
+        '
+        'setimgminmax
+        '
+        Me.setimgminmax.AutoSize = True
+        Me.setimgminmax.Location = New System.Drawing.Point(15, 169)
+        Me.setimgminmax.Name = "setimgminmax"
+        Me.setimgminmax.Size = New System.Drawing.Size(259, 19)
+        Me.setimgminmax.TabIndex = 30
+        Me.setimgminmax.Text = "Set threshold maximum to image maximum"
+        Me.setimgminmax.UseVisualStyleBackColor = True
         '
         'lutlist
         '
         Me.lutlist.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lutlist.FormattingEnabled = True
-        Me.lutlist.Location = New System.Drawing.Point(13, 224)
+        Me.lutlist.Location = New System.Drawing.Point(13, 267)
         Me.lutlist.Name = "lutlist"
         Me.lutlist.Size = New System.Drawing.Size(268, 21)
         Me.lutlist.TabIndex = 29
@@ -536,7 +669,7 @@ Partial Class Form1
         '
         Me.Label10.AutoSize = True
         Me.Label10.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label10.Location = New System.Drawing.Point(8, 205)
+        Me.Label10.Location = New System.Drawing.Point(8, 248)
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(105, 13)
         Me.Label10.TabIndex = 28
@@ -545,7 +678,7 @@ Partial Class Form1
         'noiseradius
         '
         Me.noiseradius.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.noiseradius.Location = New System.Drawing.Point(229, 170)
+        Me.noiseradius.Location = New System.Drawing.Point(229, 213)
         Me.noiseradius.Name = "noiseradius"
         Me.noiseradius.Size = New System.Drawing.Size(42, 22)
         Me.noiseradius.TabIndex = 25
@@ -554,7 +687,7 @@ Partial Class Form1
         '
         Me.Label7.AutoSize = True
         Me.Label7.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label7.Location = New System.Drawing.Point(183, 173)
+        Me.Label7.Location = New System.Drawing.Point(183, 216)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(42, 13)
         Me.Label7.TabIndex = 26
@@ -564,7 +697,7 @@ Partial Class Form1
         '
         Me.despeckle.AutoSize = True
         Me.despeckle.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.despeckle.Location = New System.Drawing.Point(94, 172)
+        Me.despeckle.Location = New System.Drawing.Point(94, 215)
         Me.despeckle.Name = "despeckle"
         Me.despeckle.Size = New System.Drawing.Size(78, 17)
         Me.despeckle.TabIndex = 24
@@ -575,7 +708,7 @@ Partial Class Form1
         '
         Me.denoise.AutoSize = True
         Me.denoise.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.denoise.Location = New System.Drawing.Point(17, 172)
+        Me.denoise.Location = New System.Drawing.Point(17, 215)
         Me.denoise.Name = "denoise"
         Me.denoise.Size = New System.Drawing.Size(68, 17)
         Me.denoise.TabIndex = 23
@@ -585,7 +718,7 @@ Partial Class Form1
         'Button4
         '
         Me.Button4.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button4.Location = New System.Drawing.Point(193, 257)
+        Me.Button4.Location = New System.Drawing.Point(193, 296)
         Me.Button4.Name = "Button4"
         Me.Button4.Size = New System.Drawing.Size(94, 25)
         Me.Button4.TabIndex = 22
@@ -595,7 +728,7 @@ Partial Class Form1
         'Button3
         '
         Me.Button3.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button3.Location = New System.Drawing.Point(94, 257)
+        Me.Button3.Location = New System.Drawing.Point(94, 296)
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(94, 25)
         Me.Button3.TabIndex = 21
@@ -666,6 +799,9 @@ Partial Class Form1
         '
         'TabPage3
         '
+        Me.TabPage3.Controls.Add(Me.Button29)
+        Me.TabPage3.Controls.Add(Me.Button28)
+        Me.TabPage3.Controls.Add(Me.Button27)
         Me.TabPage3.Controls.Add(Me.Button14)
         Me.TabPage3.Controls.Add(Me.Button13)
         Me.TabPage3.Controls.Add(Me.Button12)
@@ -676,17 +812,44 @@ Partial Class Form1
         Me.TabPage3.Controls.Add(Me.Label11)
         Me.TabPage3.Controls.Add(Me.Label8)
         Me.TabPage3.Controls.Add(Me.ListBox1)
-        Me.TabPage3.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage3.Location = New System.Drawing.Point(4, 24)
         Me.TabPage3.Name = "TabPage3"
-        Me.TabPage3.Size = New System.Drawing.Size(295, 620)
+        Me.TabPage3.Size = New System.Drawing.Size(295, 618)
         Me.TabPage3.TabIndex = 2
         Me.TabPage3.Text = "Statistics"
         Me.TabPage3.UseVisualStyleBackColor = True
         '
+        'Button29
+        '
+        Me.Button29.Location = New System.Drawing.Point(26, 24)
+        Me.Button29.Name = "Button29"
+        Me.Button29.Size = New System.Drawing.Size(60, 23)
+        Me.Button29.TabIndex = 30
+        Me.Button29.Text = "Copy"
+        Me.Button29.UseVisualStyleBackColor = True
+        '
+        'Button28
+        '
+        Me.Button28.Location = New System.Drawing.Point(171, 585)
+        Me.Button28.Name = "Button28"
+        Me.Button28.Size = New System.Drawing.Size(109, 23)
+        Me.Button28.TabIndex = 29
+        Me.Button28.Text = "Overview"
+        Me.Button28.UseVisualStyleBackColor = True
+        '
+        'Button27
+        '
+        Me.Button27.Location = New System.Drawing.Point(15, 585)
+        Me.Button27.Name = "Button27"
+        Me.Button27.Size = New System.Drawing.Size(141, 23)
+        Me.Button27.TabIndex = 28
+        Me.Button27.Text = "Range calculated scores"
+        Me.Button27.UseVisualStyleBackColor = True
+        '
         'Button14
         '
         Me.Button14.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button14.Location = New System.Drawing.Point(155, 583)
+        Me.Button14.Location = New System.Drawing.Point(155, 553)
         Me.Button14.Name = "Button14"
         Me.Button14.Size = New System.Drawing.Size(125, 23)
         Me.Button14.TabIndex = 27
@@ -696,7 +859,7 @@ Partial Class Form1
         'Button13
         '
         Me.Button13.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button13.Location = New System.Drawing.Point(13, 583)
+        Me.Button13.Location = New System.Drawing.Point(13, 553)
         Me.Button13.Name = "Button13"
         Me.Button13.Size = New System.Drawing.Size(125, 23)
         Me.Button13.TabIndex = 26
@@ -706,7 +869,7 @@ Partial Class Form1
         'Button12
         '
         Me.Button12.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button12.Location = New System.Drawing.Point(198, 551)
+        Me.Button12.Location = New System.Drawing.Point(198, 521)
         Me.Button12.Name = "Button12"
         Me.Button12.Size = New System.Drawing.Size(82, 23)
         Me.Button12.TabIndex = 25
@@ -716,7 +879,7 @@ Partial Class Form1
         'Button11
         '
         Me.Button11.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button11.Location = New System.Drawing.Point(106, 551)
+        Me.Button11.Location = New System.Drawing.Point(106, 521)
         Me.Button11.Name = "Button11"
         Me.Button11.Size = New System.Drawing.Size(82, 23)
         Me.Button11.TabIndex = 24
@@ -727,7 +890,7 @@ Partial Class Form1
         '
         Me.Label33.AutoSize = True
         Me.Label33.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label33.Location = New System.Drawing.Point(16, 524)
+        Me.Label33.Location = New System.Drawing.Point(16, 497)
         Me.Label33.Name = "Label33"
         Me.Label33.Size = New System.Drawing.Size(76, 15)
         Me.Label33.TabIndex = 23
@@ -736,7 +899,7 @@ Partial Class Form1
         'Button10
         '
         Me.Button10.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button10.Location = New System.Drawing.Point(13, 551)
+        Me.Button10.Location = New System.Drawing.Point(13, 521)
         Me.Button10.Name = "Button10"
         Me.Button10.Size = New System.Drawing.Size(82, 23)
         Me.Button10.TabIndex = 22
@@ -797,7 +960,7 @@ Partial Class Form1
         Me.TableLayoutPanel1.Controls.Add(Me.Label34, 0, 11)
         Me.TableLayoutPanel1.Controls.Add(Me.coeffConstant, 1, 11)
         Me.TableLayoutPanel1.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TableLayoutPanel1.Location = New System.Drawing.Point(13, 269)
+        Me.TableLayoutPanel1.Location = New System.Drawing.Point(13, 241)
         Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
         Me.TableLayoutPanel1.RowCount = 12
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
@@ -1247,7 +1410,7 @@ Partial Class Form1
         '
         Me.Label11.AutoSize = True
         Me.Label11.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label11.Location = New System.Drawing.Point(10, 239)
+        Me.Label11.Location = New System.Drawing.Point(10, 223)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(146, 15)
         Me.Label11.TabIndex = 20
@@ -1257,7 +1420,7 @@ Partial Class Form1
         '
         Me.Label8.AutoSize = True
         Me.Label8.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label8.Location = New System.Drawing.Point(4, 15)
+        Me.Label8.Location = New System.Drawing.Point(5, 6)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(81, 15)
         Me.Label8.TabIndex = 11
@@ -1268,10 +1431,233 @@ Partial Class Form1
         Me.ListBox1.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ListBox1.FormattingEnabled = True
         Me.ListBox1.ItemHeight = 15
-        Me.ListBox1.Location = New System.Drawing.Point(91, 15)
+        Me.ListBox1.Location = New System.Drawing.Point(92, 6)
         Me.ListBox1.Name = "ListBox1"
-        Me.ListBox1.Size = New System.Drawing.Size(196, 184)
+        Me.ListBox1.Size = New System.Drawing.Size(196, 214)
         Me.ListBox1.TabIndex = 10
+        '
+        'TabPage4
+        '
+        Me.TabPage4.Controls.Add(Me.Button25)
+        Me.TabPage4.Controls.Add(Me.expfulldata)
+        Me.TabPage4.Controls.Add(Me.Button24)
+        Me.TabPage4.Controls.Add(Me.Button23)
+        Me.TabPage4.Controls.Add(Me.Button22)
+        Me.TabPage4.Controls.Add(Me.Button21)
+        Me.TabPage4.Controls.Add(Me.Button20)
+        Me.TabPage4.Controls.Add(Me.swlimit)
+        Me.TabPage4.Controls.Add(Me.Label31)
+        Me.TabPage4.Controls.Add(Me.Button19)
+        Me.TabPage4.Controls.Add(Me.Button15)
+        Me.TabPage4.Location = New System.Drawing.Point(4, 24)
+        Me.TabPage4.Name = "TabPage4"
+        Me.TabPage4.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage4.Size = New System.Drawing.Size(295, 618)
+        Me.TabPage4.TabIndex = 3
+        Me.TabPage4.Text = "TifyDataAnalysis"
+        Me.TabPage4.UseVisualStyleBackColor = True
+        '
+        'Button25
+        '
+        Me.Button25.Location = New System.Drawing.Point(6, 130)
+        Me.Button25.Name = "Button25"
+        Me.Button25.Size = New System.Drawing.Size(283, 25)
+        Me.Button25.TabIndex = 11
+        Me.Button25.Text = "Load data and stats from file (CSV)"
+        Me.Button25.UseVisualStyleBackColor = True
+        '
+        'expfulldata
+        '
+        Me.expfulldata.FormattingEnabled = True
+        Me.expfulldata.Location = New System.Drawing.Point(223, 229)
+        Me.expfulldata.Name = "expfulldata"
+        Me.expfulldata.Size = New System.Drawing.Size(66, 23)
+        Me.expfulldata.TabIndex = 10
+        Me.expfulldata.Text = ">>"
+        '
+        'Button24
+        '
+        Me.Button24.Location = New System.Drawing.Point(6, 198)
+        Me.Button24.Name = "Button24"
+        Me.Button24.Size = New System.Drawing.Size(283, 25)
+        Me.Button24.TabIndex = 9
+        Me.Button24.Text = "Export scores w. image data"
+        Me.Button24.UseVisualStyleBackColor = True
+        '
+        'Button23
+        '
+        Me.Button23.Location = New System.Drawing.Point(6, 420)
+        Me.Button23.Name = "Button23"
+        Me.Button23.Size = New System.Drawing.Size(283, 25)
+        Me.Button23.TabIndex = 8
+        Me.Button23.Text = "Do, copy, increment"
+        Me.Button23.UseVisualStyleBackColor = True
+        '
+        'Button22
+        '
+        Me.Button22.Location = New System.Drawing.Point(6, 68)
+        Me.Button22.Name = "Button22"
+        Me.Button22.Size = New System.Drawing.Size(283, 25)
+        Me.Button22.TabIndex = 7
+        Me.Button22.Text = "Load scores alone"
+        Me.Button22.UseVisualStyleBackColor = True
+        '
+        'Button21
+        '
+        Me.Button21.Location = New System.Drawing.Point(6, 272)
+        Me.Button21.Name = "Button21"
+        Me.Button21.Size = New System.Drawing.Size(283, 25)
+        Me.Button21.TabIndex = 6
+        Me.Button21.Text = "Copy man score"
+        Me.Button21.UseVisualStyleBackColor = True
+        '
+        'Button20
+        '
+        Me.Button20.Location = New System.Drawing.Point(6, 303)
+        Me.Button20.Name = "Button20"
+        Me.Button20.Size = New System.Drawing.Size(283, 25)
+        Me.Button20.TabIndex = 5
+        Me.Button20.Text = "Copy calc score"
+        Me.Button20.UseVisualStyleBackColor = True
+        '
+        'swlimit
+        '
+        Me.swlimit.FormattingEnabled = True
+        Me.swlimit.Location = New System.Drawing.Point(166, 391)
+        Me.swlimit.Name = "swlimit"
+        Me.swlimit.Size = New System.Drawing.Size(66, 23)
+        Me.swlimit.TabIndex = 4
+        Me.swlimit.Text = "No limit"
+        '
+        'Label31
+        '
+        Me.Label31.AutoSize = True
+        Me.Label31.Location = New System.Drawing.Point(15, 392)
+        Me.Label31.Name = "Label31"
+        Me.Label31.Size = New System.Drawing.Size(144, 15)
+        Me.Label31.TabIndex = 3
+        Me.Label31.Text = "Limit stepwise data points"
+        '
+        'Button19
+        '
+        Me.Button19.Location = New System.Drawing.Point(6, 37)
+        Me.Button19.Name = "Button19"
+        Me.Button19.Size = New System.Drawing.Size(283, 25)
+        Me.Button19.TabIndex = 2
+        Me.Button19.Text = "Load score data"
+        Me.Button19.UseVisualStyleBackColor = True
+        '
+        'Button15
+        '
+        Me.Button15.Location = New System.Drawing.Point(6, 6)
+        Me.Button15.Name = "Button15"
+        Me.Button15.Size = New System.Drawing.Size(283, 25)
+        Me.Button15.TabIndex = 0
+        Me.Button15.Text = "Save all score data"
+        Me.Button15.UseVisualStyleBackColor = True
+        '
+        'TabPage5
+        '
+        Me.TabPage5.Controls.Add(Me.Label35)
+        Me.TabPage5.Controls.Add(Me.Button17)
+        Me.TabPage5.Controls.Add(Me.Button26)
+        Me.TabPage5.Controls.Add(Me.outputformat)
+        Me.TabPage5.Controls.Add(Me.Label27)
+        Me.TabPage5.Controls.Add(Me.Button16)
+        Me.TabPage5.Controls.Add(Me.Label26)
+        Me.TabPage5.Location = New System.Drawing.Point(4, 24)
+        Me.TabPage5.Name = "TabPage5"
+        Me.TabPage5.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage5.Size = New System.Drawing.Size(295, 618)
+        Me.TabPage5.TabIndex = 4
+        Me.TabPage5.Text = "Export options"
+        Me.TabPage5.UseVisualStyleBackColor = True
+        '
+        'Button26
+        '
+        Me.Button26.Location = New System.Drawing.Point(16, 220)
+        Me.Button26.Name = "Button26"
+        Me.Button26.Size = New System.Drawing.Size(259, 25)
+        Me.Button26.TabIndex = 4
+        Me.Button26.Text = "Export as video"
+        Me.Button26.UseVisualStyleBackColor = True
+        '
+        'outputformat
+        '
+        Me.outputformat.FormattingEnabled = True
+        Me.outputformat.Items.AddRange(New Object() {"PNG", "TIFF", "BMP", "JPG"})
+        Me.outputformat.Location = New System.Drawing.Point(111, 160)
+        Me.outputformat.Name = "outputformat"
+        Me.outputformat.Size = New System.Drawing.Size(163, 23)
+        Me.outputformat.TabIndex = 3
+        Me.outputformat.Text = "PNG"
+        '
+        'Label27
+        '
+        Me.Label27.AutoSize = True
+        Me.Label27.Location = New System.Drawing.Point(18, 163)
+        Me.Label27.Name = "Label27"
+        Me.Label27.Size = New System.Drawing.Size(84, 15)
+        Me.Label27.TabIndex = 2
+        Me.Label27.Text = "Output format"
+        '
+        'Button16
+        '
+        Me.Button16.Location = New System.Drawing.Point(16, 189)
+        Me.Button16.Name = "Button16"
+        Me.Button16.Size = New System.Drawing.Size(259, 25)
+        Me.Button16.TabIndex = 1
+        Me.Button16.Text = "Export as individual files"
+        Me.Button16.UseVisualStyleBackColor = True
+        '
+        'Label26
+        '
+        Me.Label26.AutoSize = True
+        Me.Label26.Location = New System.Drawing.Point(13, 138)
+        Me.Label26.Name = "Label26"
+        Me.Label26.Size = New System.Drawing.Size(83, 15)
+        Me.Label26.TabIndex = 0
+        Me.Label26.Text = "Export options"
+        '
+        'TabPage6
+        '
+        Me.TabPage6.Controls.Add(Me.GroupBox1)
+        Me.TabPage6.Location = New System.Drawing.Point(4, 24)
+        Me.TabPage6.Name = "TabPage6"
+        Me.TabPage6.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage6.Size = New System.Drawing.Size(295, 618)
+        Me.TabPage6.TabIndex = 5
+        Me.TabPage6.Text = "Program settings"
+        Me.TabPage6.UseVisualStyleBackColor = True
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.pxstepDropdown)
+        Me.GroupBox1.Controls.Add(Me.Label32)
+        Me.GroupBox1.Location = New System.Drawing.Point(6, 6)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(283, 57)
+        Me.GroupBox1.TabIndex = 0
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "Statistics settings"
+        '
+        'pxstepDropdown
+        '
+        Me.pxstepDropdown.FormattingEnabled = True
+        Me.pxstepDropdown.Items.AddRange(New Object() {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"})
+        Me.pxstepDropdown.Location = New System.Drawing.Point(74, 19)
+        Me.pxstepDropdown.Name = "pxstepDropdown"
+        Me.pxstepDropdown.Size = New System.Drawing.Size(121, 23)
+        Me.pxstepDropdown.TabIndex = 1
+        '
+        'Label32
+        '
+        Me.Label32.AutoSize = True
+        Me.Label32.Location = New System.Drawing.Point(9, 19)
+        Me.Label32.Name = "Label32"
+        Me.Label32.Size = New System.Drawing.Size(56, 15)
+        Me.Label32.TabIndex = 0
+        Me.Label32.Text = "Pixel step"
         '
         'statwait
         '
@@ -1294,31 +1680,29 @@ Partial Class Form1
         Me.Label23.TabIndex = 0
         Me.Label23.Text = "Please wait"
         '
-        'TabPage4
+        'Button17
         '
-        Me.TabPage4.Controls.Add(Me.Button15)
-        Me.TabPage4.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage4.Name = "TabPage4"
-        Me.TabPage4.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage4.Size = New System.Drawing.Size(295, 620)
-        Me.TabPage4.TabIndex = 3
-        Me.TabPage4.Text = "TifyDataAnalysis"
-        Me.TabPage4.UseVisualStyleBackColor = True
+        Me.Button17.Location = New System.Drawing.Point(16, 30)
+        Me.Button17.Name = "Button17"
+        Me.Button17.Size = New System.Drawing.Size(259, 25)
+        Me.Button17.TabIndex = 5
+        Me.Button17.Text = "Convert video to frames"
+        Me.Button17.UseVisualStyleBackColor = True
         '
-        'Button15
+        'Label35
         '
-        Me.Button15.Location = New System.Drawing.Point(6, 6)
-        Me.Button15.Name = "Button15"
-        Me.Button15.Size = New System.Drawing.Size(283, 25)
-        Me.Button15.TabIndex = 0
-        Me.Button15.Text = "Save all score data"
-        Me.Button15.UseVisualStyleBackColor = True
+        Me.Label35.AutoSize = True
+        Me.Label35.Location = New System.Drawing.Point(13, 12)
+        Me.Label35.Name = "Label35"
+        Me.Label35.Size = New System.Drawing.Size(72, 15)
+        Me.Label35.TabIndex = 6
+        Me.Label35.Text = "Import tools"
         '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1039, 774)
+        Me.ClientSize = New System.Drawing.Size(1047, 693)
         Me.Controls.Add(Me.statwait)
         Me.Controls.Add(Me.TabControl1)
         Me.Controls.Add(Me.pleasewaitpanel)
@@ -1346,9 +1730,15 @@ Partial Class Form1
         Me.TabPage3.PerformLayout()
         Me.TableLayoutPanel1.ResumeLayout(False)
         Me.TableLayoutPanel1.PerformLayout()
+        Me.TabPage4.ResumeLayout(False)
+        Me.TabPage4.PerformLayout()
+        Me.TabPage5.ResumeLayout(False)
+        Me.TabPage5.PerformLayout()
+        Me.TabPage6.ResumeLayout(False)
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
         Me.statwait.ResumeLayout(False)
         Me.statwait.PerformLayout()
-        Me.TabPage4.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1465,4 +1855,41 @@ Partial Class Form1
     Friend WithEvents Label24 As Label
     Friend WithEvents TabPage4 As TabPage
     Friend WithEvents Button15 As Button
+    Friend WithEvents skipcheck As CheckBox
+    Friend WithEvents longtermstatus As ToolStripStatusLabel
+    Friend WithEvents TabPage5 As TabPage
+    Friend WithEvents Label26 As Label
+    Friend WithEvents Button16 As Button
+    Friend WithEvents fbd1 As FolderBrowserDialog
+    Friend WithEvents outputformat As ComboBox
+    Friend WithEvents Label27 As Label
+    Friend WithEvents setimgminmax As CheckBox
+    Friend WithEvents Label30 As Label
+    Friend WithEvents Label29 As Label
+    Friend WithEvents Label28 As Label
+    Friend WithEvents Button18 As Button
+    Friend WithEvents fwidth As ComboBox
+    Friend WithEvents Button19 As Button
+    Friend WithEvents swlimit As ComboBox
+    Friend WithEvents Label31 As Label
+    Friend WithEvents Button21 As Button
+    Friend WithEvents Button20 As Button
+    Friend WithEvents cfilename As ToolStripStatusLabel
+    Friend WithEvents Button22 As Button
+    Friend WithEvents Button23 As Button
+    Friend WithEvents expfulldata As ComboBox
+    Friend WithEvents Button24 As Button
+    Friend WithEvents Button25 As Button
+    Friend WithEvents TabPage6 As TabPage
+    Friend WithEvents GroupBox1 As GroupBox
+    Friend WithEvents pxstepDropdown As ComboBox
+    Friend WithEvents Label32 As Label
+    Friend WithEvents Button26 As Button
+    Friend WithEvents sfd1 As SaveFileDialog
+    Friend WithEvents Button27 As Button
+    Friend WithEvents Button28 As Button
+    Friend WithEvents Button29 As Button
+    Friend WithEvents PixelIntLabel As ToolStripStatusLabel
+    Friend WithEvents Label35 As Label
+    Friend WithEvents Button17 As Button
 End Class
