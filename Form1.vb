@@ -1509,6 +1509,8 @@ startagain:
 
     Private Sub Button26_Click(sender As Object, e As EventArgs) Handles Button26.Click
         Dim vidwriter As New Accord.Video.FFMPEG.VideoFileWriter
+
+
         Dim n As Integer
         Dim bmpholder As Bitmap
 
@@ -1518,7 +1520,8 @@ startagain:
             sfd1.FileName = sfd1.FileName & ".avi"
         End If
 
-        vidwriter.Open(sfd1.FileName, imagef(0).Width, imagef(0).Height, 10, Accord.Video.FFMPEG.VideoCodec.Raw)
+        'sfd1.FileName, imagef(0).Width, imagef(0).Height, 10, Accord.Video.FFMPEG.VideoCodec.Raw
+        vidwriter.Open(sfd1.FileName, imagef(0).Width, imagef(0).Width, 10, Accord.Video.FFMPEG.VideoCodec.Raw)
 
 
         For n = 0 To imgCount - 1
