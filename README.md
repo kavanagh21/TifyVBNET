@@ -1,7 +1,8 @@
 # TifyVBNET
 Tify is an application for the automated rejection of image frames based on scoring techniques. Included is a basic instruction set that should help you in the installation and operation of this application.
 ## Installing the application
-The application can run either by downloading this project and running using Visual Studio, or installed via a ClickToRun installer which is available here: https://www.dropbox.com/sh/95s5f1h1qbamq1v/AACNe8nSrJEWI3Br7kFdF7rla?dl=0. 
+The application can run either by downloading this project and running using Visual Studio, or installed via a ClickToRun installer which is available here: https://www.dropbox.com/sh/95s5f1h1qbamq1v/AACNe8nSrJEWI3Br7kFdF7rla?dl=0.
+Some people report having problems exporting videos, due to problems with the Accord.Video.FFMPEG library. This can often be resolved by installing the Visual C++ Redistributable for Visual Studio 2015, which is available from Microsoft (https://www.microsoft.com/en-us/download/details.aspx?id=48145).
 ## Basic usage
 Tify is designed to help select good and bad images from a stack of images. The primary use is for detecting and removing motion afflicted frames in large image stacks, although technically the application can be used in any instance where you have a large number of images which contain poor quality frames that you would like to remove. 
 ### Loading images
