@@ -155,6 +155,8 @@ Partial Class Form1
         Me.Button19 = New System.Windows.Forms.Button()
         Me.Button15 = New System.Windows.Forms.Button()
         Me.TabPage5 = New System.Windows.Forms.TabPage()
+        Me.Label35 = New System.Windows.Forms.Label()
+        Me.Button17 = New System.Windows.Forms.Button()
         Me.Button26 = New System.Windows.Forms.Button()
         Me.outputformat = New System.Windows.Forms.ComboBox()
         Me.Label27 = New System.Windows.Forms.Label()
@@ -169,8 +171,8 @@ Partial Class Form1
         Me.sfd = New System.Windows.Forms.SaveFileDialog()
         Me.fbd1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.sfd1 = New System.Windows.Forms.SaveFileDialog()
-        Me.Button17 = New System.Windows.Forms.Button()
-        Me.Label35 = New System.Windows.Forms.Label()
+        Me.qidCount = New System.Windows.Forms.ComboBox()
+        Me.Label36 = New System.Windows.Forms.Label()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.StatusStrip1.SuspendLayout()
         CType(Me.cImageVal, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1078,9 +1080,9 @@ Partial Class Form1
         Me.Label21.AutoSize = True
         Me.Label21.Location = New System.Drawing.Point(3, 180)
         Me.Label21.Name = "Label21"
-        Me.Label21.Size = New System.Drawing.Size(27, 15)
+        Me.Label21.Size = New System.Drawing.Size(24, 15)
         Me.Label21.TabIndex = 9
-        Me.Label21.Text = "QID"
+        Me.Label21.Text = "SID"
         '
         'Label22
         '
@@ -1573,6 +1575,24 @@ Partial Class Form1
         Me.TabPage5.Text = "Export options"
         Me.TabPage5.UseVisualStyleBackColor = True
         '
+        'Label35
+        '
+        Me.Label35.AutoSize = True
+        Me.Label35.Location = New System.Drawing.Point(13, 12)
+        Me.Label35.Name = "Label35"
+        Me.Label35.Size = New System.Drawing.Size(72, 15)
+        Me.Label35.TabIndex = 6
+        Me.Label35.Text = "Import tools"
+        '
+        'Button17
+        '
+        Me.Button17.Location = New System.Drawing.Point(16, 30)
+        Me.Button17.Name = "Button17"
+        Me.Button17.Size = New System.Drawing.Size(259, 25)
+        Me.Button17.TabIndex = 5
+        Me.Button17.Text = "Convert video to frames"
+        Me.Button17.UseVisualStyleBackColor = True
+        '
         'Button26
         '
         Me.Button26.Location = New System.Drawing.Point(16, 220)
@@ -1632,11 +1652,13 @@ Partial Class Form1
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.qidCount)
+        Me.GroupBox1.Controls.Add(Me.Label36)
         Me.GroupBox1.Controls.Add(Me.pxstepDropdown)
         Me.GroupBox1.Controls.Add(Me.Label32)
         Me.GroupBox1.Location = New System.Drawing.Point(6, 6)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(283, 57)
+        Me.GroupBox1.Size = New System.Drawing.Size(283, 88)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Statistics settings"
@@ -1653,7 +1675,7 @@ Partial Class Form1
         'Label32
         '
         Me.Label32.AutoSize = True
-        Me.Label32.Location = New System.Drawing.Point(9, 19)
+        Me.Label32.Location = New System.Drawing.Point(12, 27)
         Me.Label32.Name = "Label32"
         Me.Label32.Size = New System.Drawing.Size(56, 15)
         Me.Label32.TabIndex = 0
@@ -1680,23 +1702,23 @@ Partial Class Form1
         Me.Label23.TabIndex = 0
         Me.Label23.Text = "Please wait"
         '
-        'Button17
+        'qidCount
         '
-        Me.Button17.Location = New System.Drawing.Point(16, 30)
-        Me.Button17.Name = "Button17"
-        Me.Button17.Size = New System.Drawing.Size(259, 25)
-        Me.Button17.TabIndex = 5
-        Me.Button17.Text = "Convert video to frames"
-        Me.Button17.UseVisualStyleBackColor = True
+        Me.qidCount.FormattingEnabled = True
+        Me.qidCount.Items.AddRange(New Object() {"2x2", "3x3", "4x4", "5x5", "6x6"})
+        Me.qidCount.Location = New System.Drawing.Point(137, 48)
+        Me.qidCount.Name = "qidCount"
+        Me.qidCount.Size = New System.Drawing.Size(58, 23)
+        Me.qidCount.TabIndex = 3
         '
-        'Label35
+        'Label36
         '
-        Me.Label35.AutoSize = True
-        Me.Label35.Location = New System.Drawing.Point(13, 12)
-        Me.Label35.Name = "Label35"
-        Me.Label35.Size = New System.Drawing.Size(72, 15)
-        Me.Label35.TabIndex = 6
-        Me.Label35.Text = "Import tools"
+        Me.Label36.AutoSize = True
+        Me.Label36.Location = New System.Drawing.Point(12, 56)
+        Me.Label36.Name = "Label36"
+        Me.Label36.Size = New System.Drawing.Size(107, 15)
+        Me.Label36.TabIndex = 2
+        Me.Label36.Text = "SID segment count"
         '
         'Form1
         '
@@ -1892,4 +1914,6 @@ Partial Class Form1
     Friend WithEvents PixelIntLabel As ToolStripStatusLabel
     Friend WithEvents Label35 As Label
     Friend WithEvents Button17 As Button
+    Friend WithEvents qidCount As ComboBox
+    Friend WithEvents Label36 As Label
 End Class

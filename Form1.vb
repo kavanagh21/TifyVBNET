@@ -85,6 +85,13 @@ erhand:
         Dim prTVal As Double
         Dim quad(3) As Double
         Dim adval As Double
+        Dim dvs As Integer
+        Dim imgDiv As Double
+        Dim xcol As Integer
+        Dim imgDivH As Double
+        Dim ycol As Integer
+        Dim snum As Integer
+        Dim segmentsum(0) As Double
 
         CheckBox1.Checked = False
         displaytimer.Enabled = False
@@ -165,7 +172,7 @@ erhand:
                 threshMin.Value = 0
                 upperthreshslider.Value = upperthreshslider.Maximum
                 threshMax.Value = threshMax.Maximum
-                'Debug.Print(imagef(n).Statistics.Composite.Maximum)
+                'Debug.print(imagef(n).Statistics.Composite.Maximum)
             End If
 
 
@@ -176,7 +183,7 @@ erhand:
                 PictureBox1.Image = Image.FromStream(imgStream)
             End Using
 
-            'statUniqueColour(n) = imagef(n).UniqueColors
+
             statEntropy(n) = imagef(n).Statistics.Composite.Entropy
             statUniqueColour(n) = imagef(n).TotalColors
             statKurtosis(n) = imagef(n).Statistics.Composite.Kurtosis
@@ -189,6 +196,28 @@ erhand:
             fPixel = imagef(n).GetPixels
             prTVal = 0
             pxCount = 0
+
+            Select Case qidCount.SelectedIndex
+                Case 0
+                    dvs = 2
+                    ReDim segmentsum(3)
+                Case 1
+                    dvs = 3
+                    ReDim segmentsum(8)
+                Case 2
+                    dvs = 4
+                    ReDim segmentsum(15)
+                Case 3
+                    dvs = 5
+                    ReDim segmentsum(24)
+                Case 4
+                    dvs = 6
+                    ReDim segmentsum(35)
+            End Select
+
+
+            imgDiv = imagef(n).Width / dvs
+            imgDivH = imagef(n).Height / dvs
 
             'calculate iterative statistics. efficient to cycle once, calculate many!
             'the global variable statpxStep defines the statistics stepping value
@@ -203,25 +232,29 @@ erhand:
                     prTVal = prTVal + Math.Abs(adval)
 
                     'quadrant intensity values
-                    If x <= imagef(n).Width / 2 And y <= imagef(n).Height / 2 Then quad(0) = quad(0) + fPixel.GetValue(x, y).GetValue(0)
-                    If x <= imagef(n).Width / 2 And y > imagef(n).Height / 2 Then quad(1) = quad(1) + fPixel.GetValue(x, y).GetValue(0)
-                    If x > imagef(n).Width / 2 And y <= imagef(n).Height / 2 Then quad(2) = quad(2) + fPixel.GetValue(x, y).GetValue(0)
-                    If x > imagef(n).Width / 2 And y > imagef(n).Height / 2 Then quad(3) = quad(3) + fPixel.GetValue(x, y).GetValue(0)
-                    'Debug.Print("PxInt: " & fPixel.GetValue(x, y).GetValue(0))
+                    'calculate quadrant location
+                    xcol = Int(x / imgDiv) + 1
+                    ycol = Int(y / imgDivH) + 1
+                    snum = (xcol + ((ycol - 1) * dvs)) - 1
+                    segmentsum(snum) += fPixel.GetValue(x, y).GetValue(0)
+
+
+                    'Debug.print("X:" & x & "; Y: " & y & "; xcol: " & xcol & "; ycol: " & ycol & "; snum: " & snum)
+
+                    'Debug.print("PxInt: " & fPixel.GetValue(x, y).GetValue(0))
                     pxCount += 1
 
                 Next
             Next
 
-            Debug.Print("QUAD values: " & quad(0) & ", " & quad(1) & ", " & quad(2) & ", " & quad(3))
-
+            'Debug.print("QUAD values: " & quad(0) & ", " & quad(1) & ", " & quad(2) & ", " & quad(3))
+            'Debug.print("QUAD values: " & segmentsum(0) & ", " & segmentsum(1) & ", " & segmentsum(2) & ", " & segmentsum(3))
+            'Debug.print("STDEV:" & quad.StandardDeviation)
+            'Debug.print("STDEV: " & segmentsum.StandardDeviation)
             statPixelRamp(n) = prTVal
-            statQID(n) = quad.StandardDeviation
+            statQID(n) = segmentsum.StandardDeviation
 
-            quad(0) = 0
-            quad(1) = 0
-            quad(2) = 0
-            quad(3) = 0
+
 
             If ListBox1.Items.Count = 0 Then
                 For xx = 0 To 12
@@ -448,6 +481,8 @@ tryagain:
 
         pxstepDropdown.SelectedIndex = 2
         statpxStep = 3
+        qidCount.SelectedIndex = 0
+
 
         Dim identity = WindowsIdentity.GetCurrent()
         Dim principal = New WindowsPrincipal(identity)
@@ -520,8 +555,8 @@ tryagain:
         toolstripobj.Text = "OCS1 complete"
 
 
-        Debug.Print("CMD>" & tmpfile1)
-        Debug.Print("DATA>" & tmpfile2)
+        'Debug.print("CMD>" & tmpfile1)
+        'Debug.print("DATA>" & tmpfile2)
 
 
         IO.File.AppendAllText(tmpfile1, "SET FORMAT F30.14." & vbCrLf)
@@ -551,8 +586,8 @@ tryagain:
         IO.File.AppendAllText(tmpfile1, "REGRESSION /VARIABLES=" & vstr & "/STATISTICS coeff r /DEPENDENT quality.")
         toolstripobj.Text = "OCS3 complete"
 
-        Debug.Print(tmpfile1)
-        Debug.Print(tmpfile2)
+        'Debug.print(tmpfile1)
+        'Debug.print(tmpfile2)
 
         toolstripobj.Text = "OCS3a complete"
 
@@ -607,7 +642,7 @@ tryagain:
         End If
         txtResp = proc.StandardOutput.ReadToEnd()
         proc.Close()
-        Debug.Print(txtResp)
+        'Debug.print(txtResp)
         txtRespL = Split(txtResp, Environment.NewLine)
 
         toolstripobj.Text = "OCS6 complete"
@@ -616,7 +651,7 @@ tryagain:
         'process the incoming data
         nlFlag = ""
         For Each ltxt As String In txtRespL
-            Debug.Print(ltxt)
+            'Debug.print(ltxt)
 
             If ltxt.Length = 0 Then Continue For
 
@@ -832,7 +867,7 @@ beginSLoop:
             nrsv = RunMLR()
             If nrsv <= rsv Then
                 'worsened the model. put it back and stop.
-                Debug.Print(">>>>>>>>>" & Me.TabPage3.Controls("TableLayoutPanel1").Controls(maxPobj).Name)
+                'Debug.print(">>>>>>>>>" & Me.TabPage3.Controls("TableLayoutPanel1").Controls(maxPobj).Name)
                 Me.TabPage3.Controls("TableLayoutPanel1").Controls(maxPobj.Replace("sig", "en")).Text = "Y"
                 RunMLR()
                 GoTo exitSLoop
@@ -921,7 +956,7 @@ exitSLoop:
         ListBox1.Items.Item(6) = "Deviation: " & statDeviation(sts)
         ListBox1.Items.Item(7) = "Integrated Density: " & statIntDensity(sts)
         ListBox1.Items.Item(8) = "Pixel ramp: " & statPixelRamp(sts)
-        ListBox1.Items.Item(9) = "QID: " & statQID(sts)
+        ListBox1.Items.Item(9) = "SID: " & statQID(sts)
         ListBox1.Items.Item(10) = "SumSquared: " & statSumSquared(sts)
         ListBox1.Items.Item(11) = "Manual score: " & imgScore(sts)
         ListBox1.Items.Item(12) = "Calculated score: " & calcScore(sts)
@@ -1072,7 +1107,7 @@ filewriteerror:
             If skipcheck.Checked = False Then imagef(n).Write(fbd1.SelectedPath & "\frame" & Format(n, "00000000") & "." & outputformat.Text)
 
             toolstripobj.Text = "Saving image " & n
-            tsProgress.Value = n + 1
+            tsProgress.Value = n
 
         Next
 
@@ -1594,5 +1629,11 @@ startagain:
 leaveroutine:
     End Sub
 
+    Private Sub TabPage6_Click(sender As Object, e As EventArgs) Handles TabPage6.Click
 
+    End Sub
+
+    Private Sub qidCount_SelectedIndexChanged(sender As Object, e As EventArgs) Handles qidCount.SelectedIndexChanged
+
+    End Sub
 End Class
