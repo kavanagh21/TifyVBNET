@@ -83,6 +83,7 @@ Partial Class Form1
         Me.Label2 = New System.Windows.Forms.Label()
         Me.lowthreshslider = New System.Windows.Forms.TrackBar()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
+        Me.Label37 = New System.Windows.Forms.Label()
         Me.Button29 = New System.Windows.Forms.Button()
         Me.Button28 = New System.Windows.Forms.Button()
         Me.Button27 = New System.Windows.Forms.Button()
@@ -164,6 +165,9 @@ Partial Class Form1
         Me.Label26 = New System.Windows.Forms.Label()
         Me.TabPage6 = New System.Windows.Forms.TabPage()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.normalisestats = New System.Windows.Forms.CheckBox()
+        Me.qidCount = New System.Windows.Forms.ComboBox()
+        Me.Label36 = New System.Windows.Forms.Label()
         Me.pxstepDropdown = New System.Windows.Forms.ComboBox()
         Me.Label32 = New System.Windows.Forms.Label()
         Me.statwait = New System.Windows.Forms.Panel()
@@ -171,8 +175,7 @@ Partial Class Form1
         Me.sfd = New System.Windows.Forms.SaveFileDialog()
         Me.fbd1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.sfd1 = New System.Windows.Forms.SaveFileDialog()
-        Me.qidCount = New System.Windows.Forms.ComboBox()
-        Me.Label36 = New System.Windows.Forms.Label()
+        Me.CheckBox3 = New System.Windows.Forms.CheckBox()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.StatusStrip1.SuspendLayout()
         CType(Me.cImageVal, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -801,6 +804,7 @@ Partial Class Form1
         '
         'TabPage3
         '
+        Me.TabPage3.Controls.Add(Me.Label37)
         Me.TabPage3.Controls.Add(Me.Button29)
         Me.TabPage3.Controls.Add(Me.Button28)
         Me.TabPage3.Controls.Add(Me.Button27)
@@ -820,6 +824,19 @@ Partial Class Form1
         Me.TabPage3.TabIndex = 2
         Me.TabPage3.Text = "Statistics"
         Me.TabPage3.UseVisualStyleBackColor = True
+        '
+        'Label37
+        '
+        Me.Label37.AutoSize = True
+        Me.Label37.BackColor = System.Drawing.Color.Red
+        Me.Label37.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label37.ForeColor = System.Drawing.Color.White
+        Me.Label37.Location = New System.Drawing.Point(193, 497)
+        Me.Label37.Name = "Label37"
+        Me.Label37.Size = New System.Drawing.Size(87, 15)
+        Me.Label37.TabIndex = 31
+        Me.Label37.Text = "Warning (click)"
+        Me.Label37.Visible = False
         '
         'Button29
         '
@@ -1440,6 +1457,7 @@ Partial Class Form1
         '
         'TabPage4
         '
+        Me.TabPage4.Controls.Add(Me.CheckBox3)
         Me.TabPage4.Controls.Add(Me.Button25)
         Me.TabPage4.Controls.Add(Me.expfulldata)
         Me.TabPage4.Controls.Add(Me.Button24)
@@ -1652,16 +1670,45 @@ Partial Class Form1
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.normalisestats)
         Me.GroupBox1.Controls.Add(Me.qidCount)
         Me.GroupBox1.Controls.Add(Me.Label36)
         Me.GroupBox1.Controls.Add(Me.pxstepDropdown)
         Me.GroupBox1.Controls.Add(Me.Label32)
         Me.GroupBox1.Location = New System.Drawing.Point(6, 6)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(283, 88)
+        Me.GroupBox1.Size = New System.Drawing.Size(283, 109)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Statistics settings"
+        '
+        'normalisestats
+        '
+        Me.normalisestats.AutoSize = True
+        Me.normalisestats.Location = New System.Drawing.Point(19, 84)
+        Me.normalisestats.Name = "normalisestats"
+        Me.normalisestats.Size = New System.Drawing.Size(175, 19)
+        Me.normalisestats.TabIndex = 4
+        Me.normalisestats.Text = "Normalise statistics per pixel"
+        Me.normalisestats.UseVisualStyleBackColor = True
+        '
+        'qidCount
+        '
+        Me.qidCount.FormattingEnabled = True
+        Me.qidCount.Items.AddRange(New Object() {"2x2", "3x3", "4x4", "5x5", "6x6"})
+        Me.qidCount.Location = New System.Drawing.Point(137, 48)
+        Me.qidCount.Name = "qidCount"
+        Me.qidCount.Size = New System.Drawing.Size(58, 23)
+        Me.qidCount.TabIndex = 3
+        '
+        'Label36
+        '
+        Me.Label36.AutoSize = True
+        Me.Label36.Location = New System.Drawing.Point(12, 56)
+        Me.Label36.Name = "Label36"
+        Me.Label36.Size = New System.Drawing.Size(107, 15)
+        Me.Label36.TabIndex = 2
+        Me.Label36.Text = "SID segment count"
         '
         'pxstepDropdown
         '
@@ -1702,23 +1749,15 @@ Partial Class Form1
         Me.Label23.TabIndex = 0
         Me.Label23.Text = "Please wait"
         '
-        'qidCount
+        'CheckBox3
         '
-        Me.qidCount.FormattingEnabled = True
-        Me.qidCount.Items.AddRange(New Object() {"2x2", "3x3", "4x4", "5x5", "6x6"})
-        Me.qidCount.Location = New System.Drawing.Point(137, 48)
-        Me.qidCount.Name = "qidCount"
-        Me.qidCount.Size = New System.Drawing.Size(58, 23)
-        Me.qidCount.TabIndex = 3
-        '
-        'Label36
-        '
-        Me.Label36.AutoSize = True
-        Me.Label36.Location = New System.Drawing.Point(12, 56)
-        Me.Label36.Name = "Label36"
-        Me.Label36.Size = New System.Drawing.Size(107, 15)
-        Me.Label36.TabIndex = 2
-        Me.Label36.Text = "SID segment count"
+        Me.CheckBox3.AutoSize = True
+        Me.CheckBox3.Location = New System.Drawing.Point(6, 476)
+        Me.CheckBox3.Name = "CheckBox3"
+        Me.CheckBox3.Size = New System.Drawing.Size(132, 19)
+        Me.CheckBox3.TabIndex = 12
+        Me.CheckBox3.Text = "Don't calculate stats"
+        Me.CheckBox3.UseVisualStyleBackColor = True
         '
         'Form1
         '
@@ -1916,4 +1955,7 @@ Partial Class Form1
     Friend WithEvents Button17 As Button
     Friend WithEvents qidCount As ComboBox
     Friend WithEvents Label36 As Label
+    Friend WithEvents Label37 As Label
+    Friend WithEvents normalisestats As CheckBox
+    Friend WithEvents CheckBox3 As CheckBox
 End Class

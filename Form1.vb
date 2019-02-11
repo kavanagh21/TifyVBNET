@@ -77,6 +77,7 @@ erhand:
         Dim flname As String
         Dim fcount() As String
         Dim n As Integer
+        Dim n1 As Integer
         Dim bv As UShort()
         Dim pxCount As Integer
 
@@ -92,6 +93,7 @@ erhand:
         Dim ycol As Integer
         Dim snum As Integer
         Dim segmentsum(0) As Double
+        Dim sgdim As Integer
 
         CheckBox1.Checked = False
         displaytimer.Enabled = False
@@ -200,61 +202,78 @@ erhand:
             Select Case qidCount.SelectedIndex
                 Case 0
                     dvs = 2
-                    ReDim segmentsum(3)
+                    sgdim = 3
                 Case 1
                     dvs = 3
-                    ReDim segmentsum(8)
+                    sgdim = 8
                 Case 2
                     dvs = 4
-                    ReDim segmentsum(15)
+                    sgdim = 15
                 Case 3
                     dvs = 5
-                    ReDim segmentsum(24)
+                    sgdim = 24
                 Case 4
                     dvs = 6
-                    ReDim segmentsum(35)
+                    sgdim = 35
             End Select
 
+
+            ReDim segmentsum(sgdim)
 
             imgDiv = imagef(n).Width / dvs
             imgDivH = imagef(n).Height / dvs
 
             'calculate iterative statistics. efficient to cycle once, calculate many!
             'the global variable statpxStep defines the statistics stepping value
-            For x = statpxStep To imagef(n).Width - 1 Step statpxStep
-                For y = statpxStep To imagef(n).Height - 1 Step statpxStep
+            If CheckBox3.Checked = False Then
+                For x = statpxStep To imagef(n).Width - 1 Step statpxStep
+                    For y = statpxStep To imagef(n).Height - 1 Step statpxStep
 
-                    bv = fPixel.GetValue(x, y)
+                        bv = fPixel.GetValue(x, y)
 
-                    'pixel ramp collection
-                    adval = (fPixel.GetValue(x, y).GetValue(0) - fPixel.GetValue(x - statpxStep, y - statpxStep).GetValue(0))
+                        'pixel ramp collection
+                        adval = (fPixel.GetValue(x, y).GetValue(0) - fPixel.GetValue(x, y - statpxStep).GetValue(0))
 
-                    prTVal = prTVal + Math.Abs(adval)
+                        prTVal = prTVal + Math.Abs(adval)
 
-                    'quadrant intensity values
-                    'calculate quadrant location
-                    xcol = Int(x / imgDiv) + 1
-                    ycol = Int(y / imgDivH) + 1
-                    snum = (xcol + ((ycol - 1) * dvs)) - 1
-                    segmentsum(snum) += fPixel.GetValue(x, y).GetValue(0)
+                        'quadrant intensity values
+                        'calculate quadrant location
+                        xcol = Int(x / imgDiv) + 1
+                        ycol = Int(y / imgDivH) + 1
+                        snum = (xcol + ((ycol - 1) * dvs)) - 1
+                        segmentsum(snum) += fPixel.GetValue(x, y).GetValue(0)
 
 
-                    'Debug.print("X:" & x & "; Y: " & y & "; xcol: " & xcol & "; ycol: " & ycol & "; snum: " & snum)
+                        'Debug.print("X:" & x & "; Y: " & y & "; xcol: " & xcol & "; ycol: " & ycol & "; snum: " & snum)
 
-                    'Debug.print("PxInt: " & fPixel.GetValue(x, y).GetValue(0))
-                    pxCount += 1
+                        'Debug.print("PxInt: " & fPixel.GetValue(x, y).GetValue(0))
+                        pxCount += 1
 
+                    Next
                 Next
-            Next
-
+            End If
             'Debug.print("QUAD values: " & quad(0) & ", " & quad(1) & ", " & quad(2) & ", " & quad(3))
             'Debug.print("QUAD values: " & segmentsum(0) & ", " & segmentsum(1) & ", " & segmentsum(2) & ", " & segmentsum(3))
             'Debug.print("STDEV:" & quad.StandardDeviation)
             'Debug.print("STDEV: " & segmentsum.StandardDeviation)
-            statPixelRamp(n) = prTVal
-            statQID(n) = segmentsum.StandardDeviation
+            'Debug.Print(prTVal)
+
+            If normalisestats.Checked = True Then
+                For n1 = 0 To sgdim
+                    segmentsum(n1) = segmentsum(n1) / pxCount
+                Next
+            End If
 
 
+            If normalisestats.Checked = False Then
+                statPixelRamp(n) = prTVal
+                statQID(n) = segmentsum.StandardDeviation
+            Else
+                statPixelRamp(n) = prTVal / pxCount
+                statQID(n) = segmentsum.StandardDeviation
+            End If
+
+            Debug.Print(statQID(n))
 
             If ListBox1.Items.Count = 0 Then
                 For xx = 0 To 12
@@ -359,7 +378,8 @@ tryagain:
 
 
         pleasewaitpanel.Visible = True
-        Application.DoEvents()
+        'Application.DoEvents()
+        imagef(cImageVal.Value).Dispose()
         imagef(cImageVal.Value).Read(imagepath(cImageVal.Value))
         imagef(cImageVal.Value).Grayscale(PixelIntensityMethod.Average)
 
@@ -408,9 +428,14 @@ tryagain:
         Dim ovImg As MagickImage
         Dim Bmphandle As Bitmap
 
+        If lutlist.SelectedIndex > 0 Then
+            Bmphandle = My.Resources.imgResource.ResourceManager.GetObject(lutlist.Text)
+            ovImg = New MagickImage(Bmphandle)
+        End If
 
 
         For n = 0 To imgCount - 1
+            imagef(n).Dispose()
             imagef(n).Read(imagepath(n))
             imagef(n).Grayscale(PixelIntensityMethod.Average)
             imagef(n).Level(CUShort(threshMin.Value), CUShort(threshMax.Value))
@@ -422,8 +447,6 @@ tryagain:
             tsProgress.Value = n
 
             If lutlist.SelectedIndex > 0 Then
-                Bmphandle = My.Resources.imgResource.ResourceManager.GetObject(lutlist.Text)
-                ovImg = New MagickImage(Bmphandle)
                 imagef(n).Clut(ovImg)
             End If
 
@@ -459,7 +482,7 @@ tryagain:
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         'hide TabPage4 as the main purpose was for the production of data for the accompanying manuscript.
-        TabControl1.TabPages.Remove(TabPage4)
+        'TabControl1.TabPages.Remove(TabPage4)
 
         Dim runTimeResourceSet As Object
         Dim dictEntry As DictionaryEntry
@@ -545,7 +568,7 @@ tryagain:
         Dim tmparray() As String
         Dim nlFlag As String
         Dim adjR2 As Double
-
+        Dim swlimval As Integer
 
         'Use PSPP to perform statistics
         tmpfile1 = Application.StartupPath & "\psppFolder\command.cmd"
@@ -609,8 +632,13 @@ tryagain:
             stp = stp & imgScore(n)
             'this information is published to the secondary temporary file (e.g. the data file)
             toolstripobj.Text = "OCS3b complete"
+            If swlimit.SelectedItem.ToString = "No limit" Or swlimit.SelectedItem.ToString = "" Then
+                swlimval = 9999
+            Else
+                swlimval = CInt(swlimit.SelectedItem) - 1
+            End If
 
-            If imgScore(n) > -1 Then IO.File.AppendAllText(tmpfile2, stp & vbCrLf)
+            If imgScore(n) > -1 And swlimval >= n Then IO.File.AppendAllText(tmpfile2, stp & vbCrLf)
 
             toolstripobj.Text = "OCS3c complete"
 
@@ -811,7 +839,9 @@ tryagain:
         Dim nrsv As Double
         Dim maxP As Double
         Dim maxPobj As String
+        Dim subopt As Boolean
 
+        subopt = False
         sninc = 0
 
         For Each objHnd In Me.TabPage3.Controls("TableLayoutPanel1").Controls
@@ -870,6 +900,7 @@ beginSLoop:
                 'Debug.print(">>>>>>>>>" & Me.TabPage3.Controls("TableLayoutPanel1").Controls(maxPobj).Name)
                 Me.TabPage3.Controls("TableLayoutPanel1").Controls(maxPobj.Replace("sig", "en")).Text = "Y"
                 RunMLR()
+                subopt = True
                 GoTo exitSLoop
             End If
 
@@ -882,6 +913,13 @@ beginSLoop:
 
 
 exitSLoop:
+        'check to see if this model has non-significant parameters
+        If subopt = False Then
+            Label37.Visible = False
+        Else
+            Label37.Visible = True
+        End If
+
         statwait.Visible = False
 
     End Sub
@@ -1124,7 +1162,6 @@ filewriteerror:
 
         MsgBox("The video has " & imgcol.Count & " frames. Choose an output folder. Frames will be written as TIFF")
         fbd.ShowDialog()
-
 
         For n = 0 To imgcol.Count - 1
 
@@ -1382,6 +1419,11 @@ filewriteerror:
         Dim tStart As Single
         Dim tEnd As Single
 
+        'activate excel
+        Call Button21_Click(sender, e)
+        Application.DoEvents()
+        System.Threading.Thread.Sleep(10000)
+
 
 startagain:
         enDeviation.Text = "Y"
@@ -1442,6 +1484,8 @@ startagain:
 
             System.Windows.Forms.SendKeys.Send("{RIGHT}")
             System.Windows.Forms.SendKeys.Send("^v")
+            System.Windows.Forms.SendKeys.Send("^v")
+            System.Windows.Forms.SendKeys.Send("^v")
 
             GoTo startagain
 
@@ -1453,7 +1497,7 @@ startagain:
         Dim stp As String
         Dim delim As String
         delim = vbTab
-        For n = 0 To Val(expfulldata.SelectedItem)
+        For n = 0 To Val(expfulldata.SelectedItem) - 1
 
             stp = stp & statDeviation(n) & delim
             stp = stp & statEntropy(n) & delim
@@ -1466,7 +1510,8 @@ startagain:
             stp = stp & statSumSquared(n) & delim
             stp = stp & statUniqueColour(n) & delim
             stp = stp & statPixelRamp(n) & delim
-            stp = stp & imgScore(n)
+            stp = stp & imgScore(n) & delim
+            stp = stp & calcScore(n)
             stp = stp & vbCrLf
 
         Next
@@ -1480,6 +1525,9 @@ startagain:
         Dim strL As String
         Dim vrs() As String
         Dim cvr As Integer
+        Dim delim As String
+        Dim maxdimensionbound As Integer
+        delim = vbTab
 
         ofd.AddExtension = True
         ofd.DefaultExt = "*.txt"
@@ -1491,14 +1539,35 @@ startagain:
         MsgBox("This will overwrite the statistics of the current image set and is only for the purposes of analysis. The current image set will no longer be valid and will need to be reloaded.")
 
         opfl = My.Computer.FileSystem.OpenTextFileReader(ofd.FileName)
+        'reset the image count to zero
+        imgCount = 0
+        'as the stream object loads the data into variables as it goes along, and doesn't know the file size in advance, we can be inefficient in setting
+        'the dimension for the stats arrays. You can drop the value if required, but it shouldn't be too pressing to leave it at 500.
+        maxdimensionbound = 500
+
+        ReDim statUniqueColour(maxdimensionbound)
+        ReDim statEntropy(maxdimensionbound)
+        ReDim statKurtosis(maxdimensionbound)
+        ReDim statMaximum(maxdimensionbound)
+        ReDim statMean(maxdimensionbound)
+        ReDim statSkewness(maxdimensionbound)
+        ReDim statDeviation(maxdimensionbound)
+        ReDim statIntDensity(maxdimensionbound)
+        ReDim statPixelRamp(maxdimensionbound)
+        ReDim statQID(maxdimensionbound)
+        ReDim imagepath(maxdimensionbound)
+        ReDim statSumSquared(maxdimensionbound)
+        ReDim imgScore(maxdimensionbound)
+        ReDim calcScore(maxdimensionbound)
+        ReDim imgIncluded(maxdimensionbound)
 
         Do While opfl.EndOfStream = False
 
             strL = opfl.ReadLine
 
-            If InStr(strL, ",") > 0 Then
+            If InStr(strL, delim) > 0 Then
 
-                vrs = Split(strL, ",")
+                vrs = Split(strL, delim)
 
                 statDeviation(cvr) = vrs(0)
                 statEntropy(cvr) = vrs(1)
@@ -1520,11 +1589,12 @@ startagain:
 
         Loop
         opfl.Close()
-
+        imgCount = cvr
+        toolstripobj.Text = "Loaded in " & cvr & " image data frames to memory"
         swlimit.Items.Clear()
         swlimit.Items.Add("No limit")
 
-        For n = 1 To imgCount - 1
+        For n = 1 To maxdimensionbound
             swlimit.Items.Add(n)
         Next
 
@@ -1634,6 +1704,14 @@ leaveroutine:
     End Sub
 
     Private Sub qidCount_SelectedIndexChanged(sender As Object, e As EventArgs) Handles qidCount.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub Label37_Click(sender As Object, e As EventArgs) Handles Label37.Click
+        MsgBox("This model did not finish with p-values below 0.05 for all parameters in the model. You should consider carefully whether to use this model for the calculation of quality scores.", MsgBoxStyle.Exclamation, "Warning")
+    End Sub
+
+    Private Sub PictureBox1_Click(sender As Object, e As EventArgs) Handles PictureBox1.Click
 
     End Sub
 End Class

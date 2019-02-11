@@ -150,14 +150,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TifyVBNET.exe" size="340960">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TifyVBNET.exe" size="342496">
       <assemblyIdentity name="TifyVBNET" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>hS/Kk+HP4X2X6yGsLxkkRrLgKLINdlvvkTddw6zcRy4=</dsig:DigestValue>
+        <dsig:DigestValue>oLlp42oGjT22qulI6nqRXMuCdXk978amu6gwaT9s1q4=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
