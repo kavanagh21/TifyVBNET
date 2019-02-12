@@ -632,7 +632,7 @@ tryagain:
             stp = stp & imgScore(n)
             'this information is published to the secondary temporary file (e.g. the data file)
             toolstripobj.Text = "OCS3b complete"
-            If swlimit.SelectedItem.ToString = "No limit" Or swlimit.SelectedItem.ToString = "" Then
+            If swlimit.SelectedIndex = -1 Then
                 swlimval = 9999
             Else
                 swlimval = CInt(swlimit.SelectedItem) - 1
@@ -1293,7 +1293,7 @@ filewriteerror:
 
         swlimit.Items.Clear()
         swlimit.Items.Add("No limit")
-
+        swlimit.SelectedIndex = 0
 
 
 
@@ -1405,6 +1405,7 @@ filewriteerror:
 
         swlimit.Items.Clear()
         swlimit.Items.Add("No limit")
+        swlimit.SelectedIndex = 0
 
         For n = 1 To imgCount - 1
             swlimit.Items.Add(n)
