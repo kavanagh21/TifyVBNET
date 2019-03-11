@@ -144,6 +144,7 @@ Partial Class Form1
         Me.Label8 = New System.Windows.Forms.Label()
         Me.ListBox1 = New System.Windows.Forms.ListBox()
         Me.TabPage4 = New System.Windows.Forms.TabPage()
+        Me.CheckBox3 = New System.Windows.Forms.CheckBox()
         Me.Button25 = New System.Windows.Forms.Button()
         Me.expfulldata = New System.Windows.Forms.ComboBox()
         Me.Button24 = New System.Windows.Forms.Button()
@@ -175,27 +176,26 @@ Partial Class Form1
         Me.sfd = New System.Windows.Forms.SaveFileDialog()
         Me.fbd1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.sfd1 = New System.Windows.Forms.SaveFileDialog()
-        Me.CheckBox3 = New System.Windows.Forms.CheckBox()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.StatusStrip1.SuspendLayout()
+        Me.StatusStrip1.SuspendLayout
         CType(Me.cImageVal, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.pleasewaitpanel.SuspendLayout()
-        Me.TabControl1.SuspendLayout()
-        Me.TabPage1.SuspendLayout()
+        Me.pleasewaitpanel.SuspendLayout
+        Me.TabControl1.SuspendLayout
+        Me.TabPage1.SuspendLayout
         CType(Me.TrackBar1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.TabPage2.SuspendLayout()
+        Me.TabPage2.SuspendLayout
         CType(Me.threshMax, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.threshMin, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.upperthreshslider, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lowthreshslider, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.TabPage3.SuspendLayout()
-        Me.TableLayoutPanel1.SuspendLayout()
-        Me.TabPage4.SuspendLayout()
-        Me.TabPage5.SuspendLayout()
-        Me.TabPage6.SuspendLayout()
-        Me.GroupBox1.SuspendLayout()
-        Me.statwait.SuspendLayout()
-        Me.SuspendLayout()
+        Me.TabPage3.SuspendLayout
+        Me.TableLayoutPanel1.SuspendLayout
+        Me.TabPage4.SuspendLayout
+        Me.TabPage5.SuspendLayout
+        Me.TabPage6.SuspendLayout
+        Me.GroupBox1.SuspendLayout
+        Me.statwait.SuspendLayout
+        Me.SuspendLayout
         '
         'PictureBox1
         '
@@ -1477,6 +1477,16 @@ Partial Class Form1
         Me.TabPage4.Text = "TifyDataAnalysis"
         Me.TabPage4.UseVisualStyleBackColor = True
         '
+        'CheckBox3
+        '
+        Me.CheckBox3.AutoSize = True
+        Me.CheckBox3.Location = New System.Drawing.Point(6, 476)
+        Me.CheckBox3.Name = "CheckBox3"
+        Me.CheckBox3.Size = New System.Drawing.Size(132, 19)
+        Me.CheckBox3.TabIndex = 12
+        Me.CheckBox3.Text = "Don't calculate stats"
+        Me.CheckBox3.UseVisualStyleBackColor = True
+        '
         'Button25
         '
         Me.Button25.Location = New System.Drawing.Point(6, 130)
@@ -1749,16 +1759,6 @@ Partial Class Form1
         Me.Label23.TabIndex = 0
         Me.Label23.Text = "Please wait"
         '
-        'CheckBox3
-        '
-        Me.CheckBox3.AutoSize = True
-        Me.CheckBox3.Location = New System.Drawing.Point(6, 476)
-        Me.CheckBox3.Name = "CheckBox3"
-        Me.CheckBox3.Size = New System.Drawing.Size(132, 19)
-        Me.CheckBox3.TabIndex = 12
-        Me.CheckBox3.Text = "Don't calculate stats"
-        Me.CheckBox3.UseVisualStyleBackColor = True
-        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1773,35 +1773,35 @@ Partial Class Form1
         Me.Text = "Form1"
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.StatusStrip1.ResumeLayout(False)
-        Me.StatusStrip1.PerformLayout()
+        Me.StatusStrip1.PerformLayout
         CType(Me.cImageVal, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pleasewaitpanel.ResumeLayout(False)
-        Me.pleasewaitpanel.PerformLayout()
+        Me.pleasewaitpanel.PerformLayout
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
-        Me.TabPage1.PerformLayout()
+        Me.TabPage1.PerformLayout
         CType(Me.TrackBar1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPage2.ResumeLayout(False)
-        Me.TabPage2.PerformLayout()
+        Me.TabPage2.PerformLayout
         CType(Me.threshMax, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.threshMin, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.upperthreshslider, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lowthreshslider, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPage3.ResumeLayout(False)
-        Me.TabPage3.PerformLayout()
+        Me.TabPage3.PerformLayout
         Me.TableLayoutPanel1.ResumeLayout(False)
-        Me.TableLayoutPanel1.PerformLayout()
+        Me.TableLayoutPanel1.PerformLayout
         Me.TabPage4.ResumeLayout(False)
-        Me.TabPage4.PerformLayout()
+        Me.TabPage4.PerformLayout
         Me.TabPage5.ResumeLayout(False)
-        Me.TabPage5.PerformLayout()
+        Me.TabPage5.PerformLayout
         Me.TabPage6.ResumeLayout(False)
         Me.GroupBox1.ResumeLayout(False)
-        Me.GroupBox1.PerformLayout()
+        Me.GroupBox1.PerformLayout
         Me.statwait.ResumeLayout(False)
-        Me.statwait.PerformLayout()
+        Me.statwait.PerformLayout
         Me.ResumeLayout(False)
-        Me.PerformLayout()
+        Me.PerformLayout
 
     End Sub
     Friend WithEvents fbd As FolderBrowserDialog

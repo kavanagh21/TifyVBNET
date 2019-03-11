@@ -511,6 +511,9 @@ tryagain:
         Dim principal = New WindowsPrincipal(identity)
         Dim isElevated As Boolean = principal.IsInRole(WindowsBuiltInRole.Administrator)
 
+        'remove the data analysis tab, which was created to house the necessary parts of the application required to generate the data for the publication. 
+        'You can re-enable this tab by removing this line.
+        Me.TabControl1.TabPages.RemoveByKey("TabPage4")
 
     End Sub
 
